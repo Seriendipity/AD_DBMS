@@ -1,6 +1,7 @@
 package SqlFunction;
 import java.io.*;
 public class CreateTable {
+    //只能创建表格，还需要加入列的信息
     public CreateTable(String DatabaseName,String TableName)throws IOException{
         //在databaseName下创建表格
         //先判断有没有数据库
@@ -13,4 +14,5 @@ public class CreateTable {
             System.out.println("不存在该数据库！");
         }
     }
+
 }
