@@ -3,7 +3,7 @@ package SqlFunction;
 import java.io.File;
 
 public class ShowDatabases {
-    public ShowDatabases(){
+    public static void showDatabases(){
         //获取MyDatabase目录
         File dir = new File("./MyDatabase/");
         //得到MyDatabases下的文件夹

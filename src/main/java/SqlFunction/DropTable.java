@@ -3,7 +3,7 @@ package SqlFunction;
 import java.io.*;
 
 public class DropTable {
-    public DropTable(String DatabaseName,String TableName){
+    public static void dropTable(String DatabaseName,String TableName){
         boolean flag = false;
         File file = new File("./MyDatabase/"+DatabaseName+TableName+"");
         if(file.exists()){

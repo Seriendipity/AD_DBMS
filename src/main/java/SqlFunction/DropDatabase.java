@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class DropDatabase {
-    public DropDatabase(String DatabaseName){
+    public static void dropDatabase(String DatabaseName){
         boolean flag = false;
         File dir = new File("./MyDatabase/"+DatabaseName+"");
             //如果该目录不存在的话

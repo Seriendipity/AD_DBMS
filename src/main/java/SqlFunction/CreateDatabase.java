@@ -1,7 +1,7 @@
 package SqlFunction;
 import java.io.*;
 public class CreateDatabase {
-    public CreateDatabase(String DatabaseName){
+    public static void createDatabase(String DatabaseName){
         //用户创建数据库目录
         File dir = new File("./MyDatabase/"+DatabaseName+"");
         if(!dir.exists()) {
