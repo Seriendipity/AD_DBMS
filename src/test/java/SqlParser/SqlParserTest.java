@@ -12,6 +12,8 @@ public class SqlParserTest {
 //        CreateDatabase database = new CreateDatabase("demo2");
 //        CreateTable table = new CreateTable("demo2","table1");
 //        DropDatabase dropDatabase = new DropDatabase("demo2");
+        //测试显示数据库
+        ShowDatabases showDatabases = new ShowDatabases();
         System.out.println("This is a test for the sql");
     }
 }
