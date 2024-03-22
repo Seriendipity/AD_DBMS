@@ -1,6 +1,5 @@
 package SqlParser;
 import SqlFunction.*;
-
 import java.io.IOException;
 
 public class SqlParserTest {
