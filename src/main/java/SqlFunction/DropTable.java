@@ -5,7 +5,7 @@ import java.io.*;
 public class DropTable {
     public static void dropTable(String DatabaseName,String TableName){
         boolean flag = false;
-        File file = new File("./MyDatabase/"+DatabaseName+TableName+"");
+        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"");
         if(file.exists()){
             flag = file.delete();
             if(!flag){

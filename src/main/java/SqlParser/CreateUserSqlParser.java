@@ -7,6 +7,6 @@ public class CreateUserSqlParser extends BaseParser {
     }
     @Override
     protected void initializeSegments() {
-        segments.add(new SqlSegment("(create user)(.+)(END)","[,]"));
+        segments.add(new SqlSegment("(create user)(.+)(;)","[,]"));
     }
 }

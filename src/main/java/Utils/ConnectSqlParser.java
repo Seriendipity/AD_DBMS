@@ -1,5 +1,7 @@
 package Utils;
 
+import SqlFunction.UseDatabase;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +20,11 @@ public class ConnectSqlParser {
         if(operation.equals("create database")){
             System.out.println("调用创建数据库方法");
             String dataBaseName = list.get(1);
-            createDatabase(dataBaseName);//OK
+            createDatabase(dataBaseName);
         }else if(operation.equals("create table")){
             System.out.println("调用创建table方法");
             String tableName = list.get(1);
-            String dataBaseName = "test";
-            createTable(dataBaseName,tableName);
+            createTable(UseDatabase.databaseName,tableName);
         }else if(operation.equals("drop database")){
             System.out.println("调用删除数据库方法");
             String databaseName = list.get(1);
@@ -31,8 +32,10 @@ public class ConnectSqlParser {
         }else if(operation.equals("drop table")){
             System.out.println("调用删除表的方法");
             String tableName = list.get(1);
-            String databaseName = "test";
-            dropTable(databaseName,tableName);
+            dropTable(UseDatabase.databaseName,tableName);
+        }else if(operation.equals("use")){
+            System.out.println("切换到use的数据库");
+            UseDatabase.databaseName = list.get(1);
         }
     }
 }

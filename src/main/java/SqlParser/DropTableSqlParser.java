@@ -7,6 +7,6 @@ public class DropTableSqlParser extends BaseParser {
     }
     @Override
     protected void initializeSegments() {
-        segments.add(new SqlSegment("(drop table)(.+)(END)","[,]"));
+        segments.add(new SqlSegment("(drop table)(.+)(;)","[,]"));
     }
 }

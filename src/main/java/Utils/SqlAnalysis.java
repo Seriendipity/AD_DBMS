@@ -1,5 +1,6 @@
 package Utils;
 
+import SqlFunction.UseDatabase;
 import SqlParser.*;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public class SqlAnalysis {
         }else if(contains(sql,"(drop table)(.+)")){
             System.out.println("匹配正则表达式：drop table");
             bp = new DropTableSqlParser(sql);
+        }else if(contains(sql,"(use)(.+)")){
+            System.out.println("匹配正则表达式：use");
+            bp = new UseSqlParser(sql);
         }
         else{
             System.out.println("Sql语句错误。请重新输入");

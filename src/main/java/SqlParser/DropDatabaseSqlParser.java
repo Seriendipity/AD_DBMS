@@ -9,6 +9,6 @@ public class DropDatabaseSqlParser extends BaseParser{
     }
     @Override
     protected void initializeSegments() {
-        segments.add(new SqlSegment("(drop database)(.+?)(END)","[,]"));
+        segments.add(new SqlSegment("(drop database)(.+?)(;)","[,]"));
     }
 }
