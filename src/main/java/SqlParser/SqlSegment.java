@@ -57,9 +57,9 @@ public class SqlSegment {
         this.bodyParts = bodyParts;
     }
 
-    private String start;//sql语句的开始部分
-    private String body;//sql语句的中间部分
-    private String end;//sql语句的结束部分
+    private String start;//sql语句的group(1)
+    private String body;//sql语句的group(2)
+    private String end;//sql语句的group(3)
 
     private String bodySplit;//对body进行切割
     private String segmentRegExp;//片段的正则表达式
@@ -76,37 +76,34 @@ public class SqlSegment {
     }
     //从sql中查找符合segmentRegExp的部分
     public void parse(String sql){
-        Pattern pattern = Pattern.compile(segmentRegExp,Pattern.CASE_INSENSITIVE);//大小写不敏感
+        Pattern pattern = Pattern.compile(segmentRegExp,Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(sql);
-        while(matcher.find()){
+        boolean result = matcher.find();
+        while(result){
             start = matcher.group(1);
             body = matcher.group(2);
             end = matcher.group(3);
-            System.out.println(start);
-            System.out.println(body);
-            System.out.println(end);
             parseBody();
+            result = matcher.find();
         }
     }
-
     //解析body
     private void parseBody(){
         List<String> list = new ArrayList<String>();
-        Pattern pattern = Pattern.compile(segmentRegExp,Pattern.CASE_INSENSITIVE);
-        body = body.trim();//清除body前后的空格
-        Matcher matcher = pattern.matcher(body);
+        body = body.trim();
+        Pattern pattern = Pattern.compile(bodySplit,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(body);//在body中查找segmentRegExp的部分
         StringBuilder sb = new StringBuilder();
         boolean result = matcher.find();
         while(result){
-            matcher.appendReplacement(sb,Crlf);//对于body的每一个部分，用|去进行替换
+            matcher.appendReplacement(sb,Crlf);
             result = matcher.find();
         }
         matcher.appendTail(sb);
 
-        //按照空格进行断行
         list.add(start);
-        String[] arr = sb.toString().split("[|]");
-        list.addAll(Arrays.asList(arr));
+        String[] bodyPieces = sb.toString().split("[|]");
+        list.addAll(Arrays.asList(bodyPieces));
         bodyParts = list;
     }
 

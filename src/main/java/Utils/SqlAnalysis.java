@@ -1,7 +1,6 @@
 package Utils;
 
-import SqlParser.BaseParser;
-import SqlParser.CreateDatabaseSqlParser;
+import SqlParser.*;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,7 +12,26 @@ public class SqlAnalysis {
         if(contains(sql,"(create database)(.+)")){
             System.out.println("匹配正则表达式：create database");
             bp = new CreateDatabaseSqlParser(sql);
-        }else{
+        }else if(contains(sql,"(create table)(.+)")){
+            System.out.println("匹配正则表达式: create table");
+            bp = new CreateTableSqlParser(sql);
+        }else if (contains(sql,"(create user)(.+)")){
+            System.out.println("匹配正则表达式：create user");
+            bp = new CreateUserSqlParser(sql);
+        }else if(contains(sql,"(create index on)(.+)")){
+            System.out.println("匹配正则表达式：create index on ");
+            bp = new CreateIndexSqlParser(sql);
+        }else if(contains(sql,"(drop database)(.+)")){
+            System.out.println("匹配正则表达式：drop database");
+            bp = new DropDatabaseSqlParser(sql);
+        }else if(contains(sql,"(drop index)(.+)")){
+            System.out.println("匹配正则表达式：drop index");
+            bp = new DropIndexSqlParser(sql);
+        }else if(contains(sql,"(drop table)(.+)")){
+            System.out.println("匹配正则表达式：drop table");
+            bp = new DropTableSqlParser(sql);
+        }
+        else{
             System.out.println("Sql语句错误。请重新输入");
             return null;
         }

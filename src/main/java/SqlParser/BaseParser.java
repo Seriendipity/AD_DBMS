@@ -6,7 +6,7 @@ import java.util.List;
 public abstract class BaseParser {
     protected String originalSql;//原始的sql语句
 
-    protected List<SqlSegment> segments;
+    protected List<SqlSegment> segments;//用户输入的参数列表
 
     public BaseParser(String originalSql){
         this.originalSql = originalSql;
@@ -27,12 +27,10 @@ public abstract class BaseParser {
         return list;
     }
 
-    //得到解析完的sql语句
-
-    public String getParsedSql() {
+    public String getParsedSql(){
         StringBuffer sb = new StringBuffer();
-        for(SqlSegment sqlPart : segments){
-            sb.append(sqlPart.getParsedSqlSegment() + "n");
+        for(SqlSegment sqlSegment:segments){
+            sb.append(sqlSegment.getParsedSqlSegment()+"n");
         }
         String result = sb.toString().replaceAll("n+","n");
         return result;
