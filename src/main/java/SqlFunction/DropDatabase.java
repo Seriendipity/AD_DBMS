@@ -18,7 +18,7 @@ public class DropDatabase {
 
                 Scanner scanner = new Scanner(System.in);
                 String answer = scanner.next();
-                if(answer.toUpperCase().equals('Y')){
+                if(answer.toUpperCase().equals("Y")){
                     for(int i = 0; i < files.length; i++){
                         //按顺序删除文件
                         flag = files[i].delete();

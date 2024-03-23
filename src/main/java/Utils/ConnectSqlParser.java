@@ -1,5 +1,6 @@
 package Utils;
 
+import SqlFunction.CheckDatabaseLegal;
 import SqlFunction.UseDatabase;
 
 import java.io.IOException;
@@ -34,8 +35,14 @@ public class ConnectSqlParser {
             String tableName = list.get(1);
             dropTable(UseDatabase.databaseName,tableName);
         }else if(operation.equals("use")){
-            System.out.println("切换到use的数据库");
-            UseDatabase.databaseName = list.get(1);
+            String databaseName = list.get(1);
+            boolean isLegal = CheckDatabaseLegal.checkDBisLegal(databaseName);
+            if(isLegal){
+                System.out.println("切换到use的数据库");
+                UseDatabase.databaseName = list.get(1);
+            }else{
+                System.out.println("当前并没有该数据库，请重新输入");
+            }
         }
     }
 }
