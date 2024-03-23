@@ -1,9 +1,7 @@
 package SqlParser;
 import SqlFunction.*;
 
-import java.util.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class SqlParserTest {
     public static void main(String[] args) throws IOException {
@@ -16,11 +14,7 @@ public class SqlParserTest {
 //        DropDatabase dropDatabase = new DropDatabase("demo2");
         //测试显示数据库
         ShowDatabases.showDatabases();
-        System.out.println("This is a test for the sql");
-        //List<List<String>> list = new ArrayList<List<String>>();
-        //while(true){
-        //  System.out.println("AD_DBMS>");
 
-        //}
+        System.out.println("This is a test for the sql");
     }
 }
