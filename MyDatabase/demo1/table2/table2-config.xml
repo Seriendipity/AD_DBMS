@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <table2s Sno="int" Sname="char"> 
-  <table2>3</table2>  
+  <table2>1</table2>  
   <insertTables/>  
   <index/>  
   <indexName/> 
