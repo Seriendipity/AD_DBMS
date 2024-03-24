@@ -83,7 +83,7 @@ public class DropDataFromTable {
                     SAXReader saxReader1 = new SAXReader();
                     Document document1 = saxReader1.read(file1);
                     Element element1 = (Element) document1.getRootElement().addElement("insertTables");
-                    element1.addElement("insertTables").setText(lastNum);
+                    element1.addElement("insertTable").setText(lastNum);
                     //写入到IO流当中
                     CreateTable.writeIO(file1,document1);
                 }
