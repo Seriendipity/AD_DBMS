@@ -5,6 +5,7 @@ import org.dom4j.DocumentException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class ConnectSqlParser {
             System.out.println("调用insert方法");
             String insertTableName = list.get(1);
             List<String> insertColumnsTmp = parameterList.get(1);
-            List<String> insertColumnsSubList = new ArrayList<>() ;
+            List<String> insertColumnsSubList = new ArrayList<>() ;//获取从第二个位置开始的所有列名
             List<String> insertColumns;
             if(insertColumnsTmp != null && !insertColumnsTmp.isEmpty()){
                 insertColumnsSubList = insertColumnsTmp.subList(1,insertColumnsTmp.size());
@@ -60,14 +61,19 @@ public class ConnectSqlParser {
             }else{
                 insertColumns = new ArrayList<>();
             }
-            List<String> insertColumnValuesTmp = parameterList.get(2);
-            List<String> insertColumnValues = new ArrayList<>();
+            List<String> insertColumnValuesTmp = parameterList.get(2);//获取带有所有用户输入的数据
+            List<String> insertColumnValuesCombined = new ArrayList<>();
+            List<String> insertColumnValues = new ArrayList<>() ;
             if(insertColumnValuesTmp != null && !insertColumnValuesTmp.isEmpty()){
                 for(int index = 0 ; index < insertColumnValuesTmp.size() ; index++){
                     if(index > 0 && index % 2 == 0){
-                        insertColumnValues.add(insertColumnValuesTmp.get(index));
+                        insertColumnValuesCombined.add(insertColumnValuesTmp.get(index));
                     }
                 }
+            }
+            for(String insert : insertColumnValuesCombined){
+                String[] tmp = insert.split(",");
+                insertColumnValues.addAll(Arrays.asList(tmp));
             }
             InsertDataIntoTable.insertDataIntoTable(UseDatabase.databaseName,insertTableName,insertColumns,insertColumnValues);
         } else if (operation.equals("show tables")) {

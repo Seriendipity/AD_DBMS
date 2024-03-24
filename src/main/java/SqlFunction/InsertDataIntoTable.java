@@ -43,7 +43,7 @@ public class InsertDataIntoTable {
                     Document document = saxReader.read(writeFile);
                     Element rootElement = document.getRootElement();
                     Element element = rootElement.addElement(TableName);
-                    for (int i = 0; i < value1.size(); i++) {
+                    for (int i = 0; i< value1.size(); i++) {
                         element.addAttribute(value1.get(i), value2.get(i));
                     }
                     //若可插入文件记录数>=10,更新配置信息
