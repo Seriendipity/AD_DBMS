@@ -4,6 +4,7 @@ import SqlFunction.UseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static SqlFunction.CreateDatabase.createDatabase;
@@ -24,7 +25,8 @@ public class ConnectSqlParser {
         }else if(operation.equals("create table")){
             System.out.println("调用创建table方法");
             String tableName = list.get(1);
-            createTable(UseDatabase.databaseName,tableName);
+            List<String> listName = Collections.singletonList("Sno");
+            createTable(UseDatabase.databaseName,tableName,listName);
         }else if(operation.equals("drop database")){
             System.out.println("调用删除数据库方法");
             String databaseName = list.get(1);
