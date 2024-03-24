@@ -4,7 +4,7 @@ import java.io.File;
 
 public class ShowTables {
     //显示数据库下的表格
-    public ShowTables(String DatabaseName){
+    public static void ShowTables(String DatabaseName){
         File dir = new File("./MyDatabase/"+DatabaseName+"");
         if(dir.exists()){
         File[] files = dir.listFiles();

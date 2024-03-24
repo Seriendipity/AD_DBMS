@@ -16,10 +16,23 @@ public class SqlParserTest {
 //        CreateTable table = new CreateTable("demo2","table1");
 //        DropDatabase dropDatabase = new DropDatabase("demo2");
         //测试显示数据库
-        UseDatabase.databaseName = "demo1";
-        InsertDataIntoTable.insertDataIntoTable("demo1","table2",List.of("Sno","Sname"),List.of("22","jj"));
-        InsertDataIntoTable.insertDataIntoTable("demo1","table2",List.of("Sno","Sname"),List.of("22","jj"));
-        DropDataFromTable.dropFromTable("demo1","table2",List.of("Sno=22","Sname=jj"));
-        System.out.println("This is a test for the sql");
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("13","RJ"));
+//        System.out.println("This is a test for the sql");
     }
 }
