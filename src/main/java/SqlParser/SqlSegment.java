@@ -92,14 +92,14 @@ public class SqlSegment {
         List<String> list = new ArrayList<String>();
         body = body.trim();
         Pattern pattern = Pattern.compile(bodySplit,Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(body);//在body中查找segmentRegExp的部分
+        Matcher matcher = pattern.matcher(body);//在body中查找bodySplit的部分
         StringBuilder sb = new StringBuilder();
         boolean result = matcher.find();
         while(result){
-            matcher.appendReplacement(sb,Crlf);
+            matcher.appendReplacement(sb,Crlf);//获取从上次替换到这次替换之间的字符串
             result = matcher.find();
         }
-        matcher.appendTail(sb);
+        matcher.appendTail(sb);//获取最后一次匹配到内容之后的字符串
 
         list.add(start);
         String[] bodyPieces = sb.toString().split("[|]");

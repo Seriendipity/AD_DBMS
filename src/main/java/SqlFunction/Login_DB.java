@@ -1,6 +1,7 @@
 package SqlFunction;
 
 import Utils.SqlAnalysis;
+import org.dom4j.DocumentException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,9 +11,11 @@ import java.util.Scanner;
 import static Utils.ConnectSqlParser.connectSql;
 
 public class Login_DB {
-
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DocumentException {
+        System.out.println("-----------------------------------");
+        System.out.println("|欢迎使用AD_DBMS来进行数据库操作        |");
+        System.out.println("|您可以使用help;来进行本系统的相关用法查询 |");
+        System.out.println("-----------------------------------");
         while(true){
             Scanner input = new Scanner(System.in);
             String sql = input.nextLine();
@@ -30,7 +33,9 @@ public class Login_DB {
 
             if(sql.equals(" quit;")){
                 return;
-            }else{
+            } else if (sql.equals(" help;")) {
+                SqlHelp.Help();
+            } else{
                 parameterList = SqlAnalysis.generateParser(sql);
                 connectSql(parameterList);
             }
