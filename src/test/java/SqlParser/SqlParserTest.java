@@ -34,7 +34,8 @@ public class SqlParserTest {
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
     //    InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("13","RJ"));
         UseDatabase.databaseName = "demo1";
-        UpdateDataFromTable.updateDataFromTable("demo1","table2",List.of(List.of("Sno=011"),List.of("Sname=jj")));
+        //UpdateDataFromTable.updateDataFromTable("demo1","table2",List.of(List.of("Sno=011"),List.of("Sname=jj")));
+        ShowTableStruct.showTableStruct("demo1","table2");
 //        System.out.println("This is a test for the sql");
     }
 }
