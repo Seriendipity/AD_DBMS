@@ -18,6 +18,7 @@ public class Login_DB {
         System.out.println("-----------------------------------");
         while(true){
             Scanner input = new Scanner(System.in);
+            System.out.print(">>");
             String sql = input.nextLine();
             while(sql.lastIndexOf(";") != sql.length()-1){
                 sql = sql + " " + input.nextLine();

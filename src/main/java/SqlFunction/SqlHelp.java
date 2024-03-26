@@ -19,6 +19,9 @@ public class SqlHelp {
         System.out.println("--Show tables yourDatabaseName;");
         System.out.println("(4)Insert into语句");
         System.out.println("--Insert into yourTableName (ColumnName,[...]) values (ColumnValue,[...]),[(...)];");
+        System.out.println("(5)Update语句");
+        System.out.println("--Update table yourTableName set Column=ChangeValue where Column=OriginalValue---(Tip:set和where的等号前后不要有空格)");
+
         System.out.println("----------------------------------------------------------------------------------------");
     }
 }
