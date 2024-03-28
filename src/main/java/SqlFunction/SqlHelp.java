@@ -17,6 +17,7 @@ public class SqlHelp {
         System.out.println("(3)Show语句");
         System.out.println("--Show databases MyDatabases;");
         System.out.println("--Show tables yourDatabaseName;");
+        System.out.println("---describe yourTableName;");
         System.out.println("(4)Insert into语句");
         System.out.println("--Insert into yourTableName (ColumnName,[...]) values (ColumnValue,[...]),[(...)];");
         System.out.println("(5)Update语句");

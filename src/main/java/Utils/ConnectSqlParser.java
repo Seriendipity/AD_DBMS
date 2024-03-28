@@ -90,6 +90,10 @@ public class ConnectSqlParser {
         } else if (operation.equals("show tables")) {
             System.out.println("调用showTables方法");
             ShowTables.ShowTables(UseDatabase.databaseName);
+        } else if (operation.equals("describe")) {
+            System.out.println("调用ShowTableStruct方法");
+            String tableName = list.get(1);
+            ShowTableStruct.showTableStruct(UseDatabase.databaseName,tableName);
         } else if (operation.equals("show databases")) {
             System.out.println("调用showDatabases方法");
             ShowDatabases.showDatabases();

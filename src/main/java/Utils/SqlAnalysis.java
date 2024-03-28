@@ -49,6 +49,9 @@ public class SqlAnalysis {
         } else if (contains(sql,"(update table )(.+)(set)")) {
             System.out.println("调用updateData方法");
             bp = new UpdateDataFromTableSqlParser(sql);
+        } else if (contains(sql,"(describe)(.+)")) {
+            System.out.println("匹配正则表达式(describe)(.+)");
+            bp = new ShowTableStructSqlParser(sql);
         } else{
             System.out.println("Sql语句错误。请重新输入");
             return null;
