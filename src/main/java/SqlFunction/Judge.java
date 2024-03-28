@@ -70,7 +70,7 @@ public class Judge {
     }
 
     //判断是不是通过逐渐进行查询
-    //***************
+    //TODO
     public static boolean isIndex(File file, String key) throws DocumentException {
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
@@ -80,7 +80,7 @@ public class Judge {
     }
 
     //判断是否需要load index
-    //*****************
+    //TODO
     public static boolean needLoadIndex(){
 
         return false;
