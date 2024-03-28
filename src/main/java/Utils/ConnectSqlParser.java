@@ -30,7 +30,8 @@ public class ConnectSqlParser {
         }else if(operation.equals("create table")){
             System.out.println("调用创建table方法");
             String tableName = list.get(1);
-            List<String> listName = Collections.singletonList("Sno");
+            List<String> listNameTmp = parameterList.get(1);
+            List<String> listName = listNameTmp.subList(1,listNameTmp.size());
             createTable(UseDatabase.databaseName,tableName,listName);
         }else if(operation.equals("drop database")){
             System.out.println("调用删除数据库方法");
@@ -76,9 +77,23 @@ public class ConnectSqlParser {
                 insertColumnValues.addAll(Arrays.asList(tmp));
             }
             InsertDataIntoTable.insertDataIntoTable(UseDatabase.databaseName,insertTableName,insertColumns,insertColumnValues);
+        } else if (operation.equals("update table")) {
+            String tableName = list.get(1);
+            List<String> UpdateInformationTmp = parameterList.get(1);
+            List<List<String>> values = new ArrayList<List<String>>();
+            List<String> ConditionInformationTmp = parameterList.get(2);
+            List<String> ConditionInformation = ConditionInformationTmp.subList(1,ConditionInformationTmp.size());
+            List<String> UpdateInformation = UpdateInformationTmp.subList(1,UpdateInformationTmp.size());
+            values.add(UpdateInformation);
+            values.add(ConditionInformation);
+            UpdateDataFromTable.updateDataFromTable(UseDatabase.databaseName,tableName,values);
         } else if (operation.equals("show tables")) {
             System.out.println("调用showTables方法");
             ShowTables.ShowTables(UseDatabase.databaseName);
+        } else if (operation.equals("describe")) {
+            System.out.println("调用ShowTableStruct方法");
+            String tableName = list.get(1);
+            ShowTableStruct.showTableStruct(UseDatabase.databaseName,tableName);
         } else if (operation.equals("show databases")) {
             System.out.println("调用showDatabases方法");
             ShowDatabases.showDatabases();
