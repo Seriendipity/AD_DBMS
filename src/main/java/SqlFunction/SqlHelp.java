@@ -22,7 +22,11 @@ public class SqlHelp {
         System.out.println("--Insert into yourTableName (ColumnName,[...]) values (ColumnValue,[...]),[(...)];");
         System.out.println("(5)Update语句");
         System.out.println("--Update table yourTableName set Column=ChangeValue where Column=OriginalValue---(Tip:set和where的等号前后不要有空格)");
-
+        System.out.println("(6)Select语句");
+        System.out.println("--Select * from yourTableName;");
+        System.out.println("--Select * from yourTableName where yourCondition");
+        System.out.println("--Select columnName from yourTableName");
+        System.out.println("--Select columnName from yourTableName where yourCondition");
         System.out.println("----------------------------------------------------------------------------------------");
     }
 }

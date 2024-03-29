@@ -4,10 +4,7 @@ import SqlFunction.*;
 import org.dom4j.DocumentException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static SqlFunction.CreateDatabase.createDatabase;
 import static SqlFunction.CreateTable.createTable;
@@ -75,8 +72,10 @@ public class ConnectSqlParser {
             for(String insert : insertColumnValuesCombined){
                 String[] tmp = insert.split(",");
                 insertColumnValues.addAll(Arrays.asList(tmp));
+                InsertDataIntoTable.insertDataIntoTable(UseDatabase.databaseName,insertTableName,insertColumns,insertColumnValues);
+                insertColumnValues.clear();
             }
-            InsertDataIntoTable.insertDataIntoTable(UseDatabase.databaseName,insertTableName,insertColumns,insertColumnValues);
+
         } else if (operation.equals("update table")) {
             String tableName = list.get(1);
             List<String> UpdateInformationTmp = parameterList.get(1);
@@ -87,6 +86,29 @@ public class ConnectSqlParser {
             values.add(UpdateInformation);
             values.add(ConditionInformation);
             UpdateDataFromTable.updateDataFromTable(UseDatabase.databaseName,tableName,values);
+
+        } else if (operation.equals("select")) {
+            System.out.println("调用select方法");
+            String tableName = parameterList.get(1).get(1);
+            List<String> selectedColumn = parameterList.get(0).subList(1,parameterList.get(0).size());
+            List<String> selectedCondition;
+            if(parameterList.size() !=3){
+                selectedCondition = null;
+            }else{
+                selectedCondition = parameterList.get(2);
+            }
+            SelectDataFromTable.select(UseDatabase.databaseName,tableName,selectedColumn,selectedCondition);
+        } else if (operation.equals("select *") || operation.equals("select*")) {
+            System.out.println("调用select*方法");
+            String tableName = parameterList.get(1).get(1);
+            List<String> selectedColumn = null;
+            List<String> selectedCondition;
+            if(parameterList.size() != 3){
+                selectedCondition = null;
+            }else{
+                selectedCondition = parameterList.get(2);
+            }
+            SelectDataFromTable.select(UseDatabase.databaseName,tableName,selectedColumn,selectedCondition);
         } else if (operation.equals("show tables")) {
             System.out.println("调用showTables方法");
             ShowTables.ShowTables(UseDatabase.databaseName);

@@ -1,6 +1,5 @@
 package Utils;
 
-import SqlFunction.UseDatabase;
 import SqlParser.*;
 
 import java.util.List;
@@ -40,6 +39,20 @@ public class SqlAnalysis {
         }else if(contains(sql,"(insert into)(.+)(values)(.+)")){
             System.out.println("匹配正则表达式：insert into XX () values ()");
             bp = new InsertPartSqlParser(sql);
+        }  else if (contains(sql,"(select\\s*\\*)(.+)")) {
+            if(contains(sql,"(select\\s*\\*)(.+)(where)(.+)")){
+                System.out.println("匹配正则表达式：select * from XX where XX ;");
+                bp = new SelectAllFromTableWhereSqlParser(sql);
+            }else{
+                System.out.println("匹配正则表达式：select * from XX");
+                bp = new SelectAllFromTableSqlParser(sql);
+            }
+        } else if (contains(sql,"(select)(.+)(from)(.+)(where)(.+)")) {
+            System.out.println("匹配正则表达式：select XX from XX where XX;");
+            bp = new SelectDataFromTableWhereSqlParser(sql);
+        } else if (contains(sql,"(select)(.+)(from)(.+)(;)")) {
+            System.out.println("匹配正则表达式：select XX from XX");
+            bp = new SelectDataFromTableSqlParser(sql);
         } else if (contains(sql,"(show tables)(.+)")) {
             System.out.println("匹配正则表达式：show tables");
             bp = new ShowTablesSqlParser(sql);
