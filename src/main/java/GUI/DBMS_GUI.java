@@ -1,5 +1,9 @@
 package GUI;
 
+import Utils.SqlAnalysis;
+import Utils.ConnectSqlParser;
+import org.dom4j.DocumentException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,8 +12,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import java.io.IOException;
+import java.util.List;
+
+
 public class DBMS_GUI extends JFrame {
-    private JTextArea outputTextArea;
+    private JTextArea sqlTextArea;
 
     public DBMS_GUI() {
         setTitle("AD_DBMS");
@@ -74,14 +82,10 @@ public class DBMS_GUI extends JFrame {
         JButton file3 = new JButton();
         file3.setPreferredSize(new Dimension(300,35));
         fileTopPane.add(file3);
-        JButton file4 = new JButton();
-        file4.setPreferredSize(new Dimension(300,35));
-        fileTopPane.add(file4);
-        JButton file5 = new JButton();
-        file5.setPreferredSize(new Dimension(300,35));
-        fileTopPane.add(file5);
+
         // 获取水平滚动条
         JScrollBar horizontalScrollBar = fileScrollPane.getHorizontalScrollBar();
+        horizontalScrollBar.setPreferredSize(new Dimension(10,3));
         // 设置水平滚动条样式
         horizontalScrollBar.setUI(new BasicScrollBarUI() {
             @Override
@@ -89,11 +93,27 @@ public class DBMS_GUI extends JFrame {
                 // 设置滚动条的背景颜色
                 this.thumbColor = Color.gray;
                 // 设置滚动条的前景色（滑块颜色）
-                this.thumbDarkShadowColor = Color.darkGray;
+                this.thumbDarkShadowColor = Color.pink;
                 // 设置滚动条的边框颜色
                 this.thumbHighlightColor = Color.lightGray;
-                this.minimumThumbSize = new Dimension(50,3);
-                this.maximumThumbSize = new Dimension(50,3);
+                this.minimumThumbSize = new Dimension(1100,3);
+                this.maximumThumbSize = new Dimension(100,3);
+            }
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return createZeroButton(); // 隐藏向左滚动的箭头按钮
+            }
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return createZeroButton(); // 隐藏向右滚动的箭头按钮
+            }
+            private JButton createZeroButton() {
+                JButton button = new JButton();
+                Dimension zeroDim = new Dimension(0, 0);
+                button.setPreferredSize(zeroDim);
+                button.setMinimumSize(zeroDim);
+                button.setMaximumSize(zeroDim);
+                return button;
             }
         });
 
@@ -102,11 +122,30 @@ public class DBMS_GUI extends JFrame {
         /*-------------------工具栏面板-------------------*/
         JPanel toolBar = new JPanel();
         JButton executeButton = new JButton("查询控制台");
+        JButton actionButton = new JButton("运行");
+        JButton connectButton = new JButton("连接已存在数据库");
         toolBar.add(executeButton);
+        toolBar.add(actionButton);
+        toolBar.add(connectButton);
+        //点击运行后
+        actionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                executeSQL();
+            }
+        });
+        //点击连接已存在数据库后
+        connectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Connect_GUI connect_gui = new Connect_GUI();
+            }
+        });
+
 
         /*-------------------文本区域的滚动面板-------------------*/
-        JTextArea textArea = new JTextArea();
-        JScrollPane textScrollPane = new JScrollPane(textArea);
+        sqlTextArea = new JTextArea();
+        JScrollPane textScrollPane = new JScrollPane(sqlTextArea);
         //大小适配
         managePanel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -135,12 +174,18 @@ public class DBMS_GUI extends JFrame {
         Container container = getContentPane();
         container.add(splitPane, BorderLayout.CENTER);
 
-
+    //构造函数结尾
     }
 
     private void executeSQL() {
-        // 此处编写SQL执行逻辑
-        // 示例：outputTextArea.setText("SQL executed successfully!");
+        String sql = sqlTextArea.getText();
+        List<List<String>> result = SqlAnalysis.generateParser(sql);
+        try {
+            ConnectSqlParser.connectSql(result);
+        } catch (IOException | DocumentException e) {
+            JOptionPane.showMessageDialog(this,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+        }
+        //sqlTextArea.setText(result.toString());
     }
 
     public static void main(String[] args) {
