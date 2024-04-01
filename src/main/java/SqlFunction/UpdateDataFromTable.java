@@ -60,8 +60,8 @@ public class UpdateDataFromTable {
                  Attribute attribute = (Attribute) i.next();
                  //匹配到相同的列和值
                  if(attribute.getName().equals(values2[0])&& attribute.getText().equals(values2[1])){
-                     find = true;
-                     break;
+                     find = true;//FIXME:应该是这里找到了记录之后直接返回了，使得每次只能更新找到的第一个元素。
+                     break;//FIXME:我当时尝试加了一个 static boolen去进行判断，但是没加成功
                  }
              }
              //找到了对应的列

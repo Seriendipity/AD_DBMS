@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SelectDataFromTable {
+    //FIXME:select存在的问题是，他返回的结果是从找到的第一个匹配的元组及以后得所有元组。
+    //FIXME:但神奇的是，select*貌似没有问题，能够正常工作
     //根据用户传入的参数来决定采哪种筛选的措施，这里用多态的方式
     public static void select(String DatabaseName, String TableName, List<String> Colunms, List<String> Conditions) throws DocumentException {
 

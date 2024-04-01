@@ -75,7 +75,6 @@ public class ConnectSqlParser {
                 InsertDataIntoTable.insertDataIntoTable(UseDatabase.databaseName,insertTableName,insertColumns,insertColumnValues);
                 insertColumnValues.clear();
             }
-
         } else if (operation.equals("update table")) {
             String tableName = list.get(1);
             List<String> UpdateInformationTmp = parameterList.get(1);
@@ -86,7 +85,6 @@ public class ConnectSqlParser {
             values.add(UpdateInformation);
             values.add(ConditionInformation);
             UpdateDataFromTable.updateDataFromTable(UseDatabase.databaseName,tableName,values);
-
         } else if (operation.equals("select")) {
             System.out.println("调用select方法");
             String tableName = parameterList.get(1).get(1);
