@@ -5,12 +5,12 @@ import Utils.ConnectSqlParser;
 import org.dom4j.DocumentException;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,21 +30,65 @@ public class DBMS_GUI extends JFrame {
         //菜单对象
         JMenu fileMenu = new JMenu("文件(F)");
         JMenu editMenu = new JMenu("编辑(E)");
-        JMenu viewMenu = new JMenu("视图(V)");
+        JMenu helpMenu = new JMenu("帮助(H)");
+
         //菜单内元素
-        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        JMenuItem exitMenuItem = new JMenuItem("退出AD_DBMS");
+        JMenuItem open = new JMenuItem("打开");
+        JMenuItem save = new JMenuItem("保存");
+        JMenu newMenu = new JMenu("新建");
+        JMenuItem database=new JMenuItem("数据库");
+        JMenuItem user=new JMenuItem("用户");
+
+        JMenuItem cut = new JMenuItem("剪切");
+        JMenuItem copy = new JMenuItem("复制");
+        JMenuItem paste = new JMenuItem("粘贴");
+        JMenuItem find = new JMenuItem("查找");
+        JMenuItem replace = new JMenuItem("替换");
+
+        JMenuItem function = new JMenuItem("功能介绍");
+        JMenuItem soft= new JMenuItem("软件介绍");
+
+        //按钮添加监听
+        find.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                findText();
+            }
+        });
+
+
+
+
+
         exitMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
+
         //添加到各自板块
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
-        menuBar.add(viewMenu);
+        menuBar.add(helpMenu);
 
+        fileMenu.add(open);
+        fileMenu.add(save);
+        fileMenu.add(newMenu);
+        newMenu.add(database);
+        newMenu.add(user);
         fileMenu.add(exitMenuItem);
+
+        editMenu.add(cut);
+        editMenu.add(copy);
+        editMenu.add(paste);
+        editMenu.add(find);
+        editMenu.add(replace);
+
+        helpMenu.add(function);
+        helpMenu.add(soft);
+
         setJMenuBar(menuBar);
         /*----------------------------------菜单栏样式设置--------------------------*/
         menuBar.setBackground(Color.white);
@@ -55,7 +99,8 @@ public class DBMS_GUI extends JFrame {
         Font menuFont = new Font("宋体", Font.BOLD, 15); // 创建字体对象
         fileMenu.setFont(menuFont);
         editMenu.setFont(menuFont);
-        viewMenu.setFont(menuFont);
+        helpMenu.setFont(menuFont);
+
         /*----------------------------------创建数据库资源管理器与右侧区域面板--------------------------*/
         //数据库资源管理器
         JPanel dbExplorer = new JPanel();
@@ -142,9 +187,32 @@ public class DBMS_GUI extends JFrame {
             }
         });
 
+        /*----------------------------------右键菜单栏设置--------------------------*/
+        JPopupMenu jPopupMenu=new JPopupMenu();
+
+        JMenuItem cut1 = new JMenuItem("剪切");
+        JMenuItem copy1 = new JMenuItem("复制");
+        JMenuItem paste1 = new JMenuItem("粘贴");
+        JMenuItem find1 = new JMenuItem("查找");
+        JMenuItem run1= new JMenuItem("运行");
+
+        jPopupMenu.add(cut1);
+        jPopupMenu.add(copy1);
+        jPopupMenu.add(paste1);
+        jPopupMenu.add(find1);
+        jPopupMenu.add(run1);
+
+        cut.addActionListener(e -> sqlTextArea.cut());
+        copy.addActionListener(e -> sqlTextArea.copy());
+        paste.addActionListener(e -> sqlTextArea.paste());
+//        find.addActionListener(e -> sqlTextArea.findComponentAt());
 
         /*-------------------文本区域的滚动面板-------------------*/
         sqlTextArea = new JTextArea();
+
+        //给sqlTextArea加上
+        sqlTextArea.setComponentPopupMenu(jPopupMenu);
+
         JScrollPane textScrollPane = new JScrollPane(sqlTextArea);
         //大小适配
         managePanel.addComponentListener(new ComponentAdapter() {
@@ -162,7 +230,6 @@ public class DBMS_GUI extends JFrame {
 
 
 
-
         //创建分隔面板
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,dbExplorer,managePanel);
         splitPane.setDividerLocation(200);
@@ -176,6 +243,23 @@ public class DBMS_GUI extends JFrame {
 
     //构造函数结尾
     }
+
+    //查找功能
+    private void findText() {
+        String findText = JOptionPane.showInputDialog(null, "Find:");
+        if (findText != null && !findText.isEmpty()) {
+            String content = sqlTextArea.getText();
+            int index = content.indexOf(findText, sqlTextArea.getCaretPosition());
+            if (index != -1) {
+                sqlTextArea.requestFocusInWindow();
+                sqlTextArea.select(index, index + findText.length());
+                sqlTextArea.setCaretPosition(index + findText.length());
+            } else {
+                JOptionPane.showMessageDialog(null, "Text not found");
+            }
+        }
+    }
+
 
     private void executeSQL() {
         String sql = sqlTextArea.getText();
