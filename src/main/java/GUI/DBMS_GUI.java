@@ -7,10 +7,7 @@ import org.dom4j.DocumentException;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,13 +15,94 @@ import java.util.List;
 
 public class DBMS_GUI extends JFrame {
     private JTextArea sqlTextArea;
-
+    private static int searchIndex = -1;
     public DBMS_GUI() {
         setTitle("AD_DBMS");
         setSize(1100, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setBackground(Color.white);
+
+        /*----------------------------------搜索栏设置--------------------------*/
+        JPanel findPanel=new JPanel(new GridLayout(2, 2, 5, 5));
+
+        JTextField findField = new JTextField(20);
+        JTextField replaceField = new JTextField(20);
+
+        JButton findButton = new JButton("查询");
+        JButton replaceButton = new JButton("替换");
+        JButton prevButton = new JButton("上一个");
+        JButton nextButton = new JButton("下一个");
+
+        findButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchText = findField.getText(); // 获取搜索文本
+                String text = sqlTextArea.getText(); // 获取 JTextArea 中的文本内容
+                searchIndex = text.indexOf(searchText); // 在文本内容中查找搜索文本的索引位置
+                if (searchIndex != -1) { // 如果找到搜索文本
+                    sqlTextArea.requestFocusInWindow(); // 将焦点设置回 JTextArea
+                    sqlTextArea.setCaretPosition(searchIndex); // 设置光标位置为搜索文本的起始位置
+                    sqlTextArea.select(searchIndex, searchIndex + searchText.length()); // 选择搜索文本
+                } else {
+                    JOptionPane.showMessageDialog(DBMS_GUI.this, "Text not found!"); // 如果未找到搜索文本，显示消息对话框
+                }
+        }});
+
+        replaceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (searchIndex != -1) { // 如果存在搜索到的文本
+                    String replaceText = replaceField.getText(); // 获取替换文本
+                    sqlTextArea.replaceSelection(replaceText); // 替换搜索到的文本为替换文本
+                }
+            }
+        });
+
+        prevButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (searchIndex != -1) { // 如果存在搜索到的文本
+                    String searchText = findField.getText(); // 获取搜索文本
+                    String text = sqlTextArea.getText(); // 获取 JTextArea 中的文本内容
+                    searchIndex = text.lastIndexOf(searchText, searchIndex - 1); // 查找搜索文本的上一个索引位置
+                    if (searchIndex != -1) { // 如果找到上一个匹配项
+                        sqlTextArea.requestFocusInWindow(); // 将焦点设置回 JTextArea
+                        sqlTextArea.setCaretPosition(searchIndex); // 设置光标位置为搜索文本的起始位置
+                        sqlTextArea.select(searchIndex, searchIndex + searchText.length()); // 选择搜索文本
+                    } else {
+                        JOptionPane.showMessageDialog(DBMS_GUI.this, "No previous occurrence found!"); // 如果未找到上一个匹配项，显示消息对话框
+                    }
+                }
+            }
+        });
+
+        nextButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (searchIndex != -1) { // 如果存在搜索到的文本
+                    String searchText = findField.getText(); // 获取搜索文本
+                    String text = sqlTextArea.getText(); // 获取 JTextArea 中的文本内容
+                    searchIndex = text.indexOf(searchText, searchIndex + 1); // 查找搜索文本的下一个索引位置
+                    if (searchIndex != -1) { // 如果找到下一个匹配项
+                        sqlTextArea.requestFocusInWindow(); // 将焦点设置回 JTextArea
+                        sqlTextArea.setCaretPosition(searchIndex); // 设置光标位置为搜索文本的起始位置
+                        sqlTextArea.select(searchIndex, searchIndex + searchText.length()); // 选择搜索文本
+                    } else {
+                        JOptionPane.showMessageDialog(DBMS_GUI.this, "No next occurrence found!"); // 如果未找到下一个匹配项，显示消息对话框
+                    }
+                }
+            }
+        });
+
+
+
+        findPanel.add(findField);
+        findPanel.add(findButton);
+        findPanel.add(replaceButton);
+        findPanel.add(replaceField);
+        findPanel.add(prevButton);
+        findPanel.add(nextButton);
+
+        findPanel.setVisible(false);
         /*-----------------------------创建菜单栏---------------------------*/
         GradientMenuBar menuBar = new GradientMenuBar();
         //菜单对象
@@ -43,24 +121,23 @@ public class DBMS_GUI extends JFrame {
         JMenuItem cut = new JMenuItem("剪切");
         JMenuItem copy = new JMenuItem("复制");
         JMenuItem paste = new JMenuItem("粘贴");
-        JMenuItem find = new JMenuItem("查找");
-        JMenuItem replace = new JMenuItem("替换");
-
+        JCheckBox find = new JCheckBox("查找");
         JMenuItem function = new JMenuItem("功能介绍");
         JMenuItem soft= new JMenuItem("软件介绍");
 
-        //按钮添加监听
-        find.addActionListener(new ActionListener() {
+
+        //菜单功能实现
+        cut.addActionListener(e -> sqlTextArea.cut());
+        copy.addActionListener(e -> sqlTextArea.copy());
+        paste.addActionListener(e -> sqlTextArea.paste());
+
+        find.addActionListener(new ActionListener(){
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                findText();
+                findPanel.setVisible(find.isSelected());
             }
         });
-
-
-
-
-
         exitMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,7 +161,6 @@ public class DBMS_GUI extends JFrame {
         editMenu.add(copy);
         editMenu.add(paste);
         editMenu.add(find);
-        editMenu.add(replace);
 
         helpMenu.add(function);
         helpMenu.add(soft);
@@ -193,18 +269,16 @@ public class DBMS_GUI extends JFrame {
         JMenuItem cut1 = new JMenuItem("剪切");
         JMenuItem copy1 = new JMenuItem("复制");
         JMenuItem paste1 = new JMenuItem("粘贴");
-        JMenuItem find1 = new JMenuItem("查找");
         JMenuItem run1= new JMenuItem("运行");
 
         jPopupMenu.add(cut1);
         jPopupMenu.add(copy1);
         jPopupMenu.add(paste1);
-        jPopupMenu.add(find1);
         jPopupMenu.add(run1);
 
-        cut.addActionListener(e -> sqlTextArea.cut());
-        copy.addActionListener(e -> sqlTextArea.copy());
-        paste.addActionListener(e -> sqlTextArea.paste());
+        cut1.addActionListener(e -> sqlTextArea.cut());
+        copy1.addActionListener(e -> sqlTextArea.copy());
+        paste1.addActionListener(e -> sqlTextArea.paste());
 //        find.addActionListener(e -> sqlTextArea.findComponentAt());
 
         /*-------------------文本区域的滚动面板-------------------*/
@@ -226,6 +300,7 @@ public class DBMS_GUI extends JFrame {
 
         managePanel.add(fileScrollPane,BorderLayout.NORTH);
         managePanel.add(toolBar,BorderLayout.NORTH);
+        managePanel.add(findPanel,BorderLayout.NORTH);
         managePanel.add(textScrollPane,BorderLayout.CENTER);
 
 
@@ -243,6 +318,9 @@ public class DBMS_GUI extends JFrame {
 
     //构造函数结尾
     }
+
+    //查找界面的出现
+
 
     //查找功能
     private void findText() {
