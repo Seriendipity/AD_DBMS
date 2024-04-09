@@ -2,7 +2,10 @@ package GUI;
 
 import Utils.SqlAnalysis;
 import Utils.ConnectSqlParser;
+import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,13 +14,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 
 public class DBMS_GUI extends JFrame {
-    private JTextArea sqlTextArea;
+    private final JTextArea sqlTextArea;
+
+    private static final JScrollPane dbExplorerScrollPane= new JScrollPane();
 
     public DBMS_GUI() {
         setTitle("AD_DBMS");
@@ -58,11 +68,13 @@ public class DBMS_GUI extends JFrame {
         viewMenu.setFont(menuFont);
         /*----------------------------------创建数据库资源管理器与右侧区域面板--------------------------*/
         //数据库资源管理器
-        JPanel dbExplorer = new JPanel();
+        JPanel dbExplorer= new JPanel();
         dbExplorer.setBackground( new Color(232, 245, 230, 173));
         JLabel dbLabel = new JLabel("数据库资源管理器");
         dbLabel.setFont(new Font("宋体",Font.BOLD,13));
-        dbExplorer.add(dbLabel);
+        dbExplorer.add(dbLabel,BorderLayout.NORTH);
+        dbExplorerScrollPane.setViewportView(dbExplorer);
+
         /*--------------------------------右侧面板------------------------------*/
         JPanel managePanel = new JPanel();
 
@@ -79,9 +91,9 @@ public class DBMS_GUI extends JFrame {
         JButton file2 = new JButton();
         file2.setPreferredSize(new Dimension(300,35));
         fileTopPane.add(file2);
-        JButton file3 = new JButton();
-        file3.setPreferredSize(new Dimension(300,35));
-        fileTopPane.add(file3);
+//        JButton file3 = new JButton();
+//        file3.setPreferredSize(new Dimension(300,35));
+//        fileTopPane.add(file3);
 
         // 获取水平滚动条
         JScrollBar horizontalScrollBar = fileScrollPane.getHorizontalScrollBar();
@@ -164,7 +176,7 @@ public class DBMS_GUI extends JFrame {
 
 
         //创建分隔面板
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,dbExplorer,managePanel);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,dbExplorerScrollPane,managePanel);
         splitPane.setDividerLocation(200);
         splitPane.setResizeWeight(0.2);
         splitPane.setDividerSize(2);
@@ -175,6 +187,47 @@ public class DBMS_GUI extends JFrame {
         container.add(splitPane, BorderLayout.CENTER);
 
     //构造函数结尾
+    }
+
+    public static void showTree(String dbName) {
+        File folder = new File("./MyDatabase/"+dbName+"");
+        if (folder.exists() && folder.isDirectory()) {
+
+            // 创建根节点
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode(dbName);
+
+            // 获取数据库文件夹中的所有文件
+            File[] files = folder.listFiles();
+
+            // 遍历所有文件
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        // 获取文件名作为表名
+                        String tableName = file.getName();
+                        // 创建表节点，并将其添加到根节点中
+                        DefaultMutableTreeNode tableNode = new DefaultMutableTreeNode(tableName);
+                        root.add(tableNode);
+                    }
+                }
+            }
+            //创建树
+            JTree tree = new JTree(root);
+            tree.setBackground(new Color(232, 245, 230, 173));
+            tree.setRootVisible(true); // 设置根节点可见
+
+            JPanel dbPanel = new JPanel(new BorderLayout());
+            dbPanel.setBackground(new Color(232, 245, 230, 173));
+
+            JLabel dbLabel = new JLabel("数据库资源管理器");
+            dbLabel.setFont(new Font("宋体", Font.BOLD, 13));
+            dbLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+            dbPanel.add(dbLabel, BorderLayout.NORTH);
+            dbPanel.add(tree, BorderLayout.CENTER);
+
+            dbExplorerScrollPane.setViewportView(dbPanel);
+        }
     }
 
     private void executeSQL() {

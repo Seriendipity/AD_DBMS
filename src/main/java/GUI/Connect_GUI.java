@@ -2,6 +2,8 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Connect_GUI extends JFrame {
 
@@ -38,6 +40,16 @@ public class Connect_GUI extends JFrame {
         panel.add(connectButton);
 
         setContentPane(panel);
+
+
+        //连接按钮监听
+        connectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String dbName = databaseName.getText();
+                DBMS_GUI.showTree(dbName);
+            }
+        });
 
     }
 }
