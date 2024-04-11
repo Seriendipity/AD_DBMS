@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.*;
 
 import static SqlFunction.CreateDatabase.createDatabase;
+import static SqlFunction.CreateIndex.createIndex;
 import static SqlFunction.CreateTable.createTable;
 import static SqlFunction.DropDatabase.dropDatabase;
 import static SqlFunction.DropTable.dropTable;
-
 
 public class ConnectSqlParser {
     public static void connectSql(List<List<String>> parameterList) throws IOException, DocumentException {
@@ -30,7 +30,17 @@ public class ConnectSqlParser {
             List<String> listNameTmp = parameterList.get(1);
             List<String> listName = listNameTmp.subList(1,listNameTmp.size());
             createTable(UseDatabase.databaseName,tableName,listName);
-        }else if(operation.equals("drop database")){
+        } else if (operation.equals("create index")) {
+            System.out.println("调用create index方法");
+            String indexName = list.get(1);
+            String tableName = parameterList.get(1).get(1);
+            createIndex(UseDatabase.databaseName,tableName,indexName);
+        } else if (operation.equals("create index on")) {
+            System.out.println("调用create index on方法");
+            String tableName = list.get(1);
+            String indexName = tableName+"_index";
+            createIndex(UseDatabase.databaseName,tableName,indexName);
+        } else if(operation.equals("drop database")){
             System.out.println("调用删除数据库方法");
             String databaseName = list.get(1);
             dropDatabase(databaseName);

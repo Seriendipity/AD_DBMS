@@ -3,6 +3,8 @@ package SqlFunction;
 import java.io.*;
 import java.util.Scanner;
 
+import static SqlFunction.DropTable.dropTable;
+
 public class DropDatabase {
     public static void dropDatabase(String DatabaseName){
         boolean flag = false;
@@ -21,9 +23,7 @@ public class DropDatabase {
                 if(answer.toUpperCase().equals("Y")){
                     for(int i = 0; i < files.length; i++){
                         //按顺序删除文件
-                        flag = files[i].delete();
-                        //如果删除失败
-                        if(!flag) break;
+                       dropTable(DatabaseName,files[i].getName());
                     }
                     dir.delete();
                     System.out.println("数据库"+DatabaseName+"删除成功！");

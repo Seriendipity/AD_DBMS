@@ -8,6 +8,6 @@ public class CreateTableSqlParser extends BaseParser {
     @Override
     protected void initializeSegments() {
         segments.add(new SqlSegment("(create table)(.+?)([(])","[,]"));
-        segments.add(new SqlSegment("([(])(.*?)([)];)","[,]"));
+        segments.add(new SqlSegment("([(])(.+?)([)];)","[,]\\s*?"));
     }
 }

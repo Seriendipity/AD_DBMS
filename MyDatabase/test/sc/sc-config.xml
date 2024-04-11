@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<scs sno="int" sname="int" ssex="int">
-  <sc>0</sc>
-  <insertTables/>
-  <index/>
-  <indexName/>
+<scs sno="int" sname="char(6)"> 
+  <sc>0</sc>  
+  <insertTables/>  
+  <index>1</index>  
+  <indexName>s</indexName> 
 </scs>

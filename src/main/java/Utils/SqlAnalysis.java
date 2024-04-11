@@ -21,7 +21,10 @@ public class SqlAnalysis {
         }else if(contains(sql,"(create index on)(.+)")){
             System.out.println("匹配正则表达式：create index on ");
             bp = new CreateIndexSqlParser(sql);
-        }else if(contains(sql,"(drop database)(.+)")){
+        } else if (contains(sql,"(create index)(.+)(on)(.+)")) {
+            System.out.println("匹配正则表达式：create index XX on");
+            bp = new CreateIndexWithNameSqlParser(sql);
+        } else if(contains(sql,"(drop database)(.+)")){
             System.out.println("匹配正则表达式：drop database");
             bp = new DropDatabaseSqlParser(sql);
         }else if(contains(sql,"(drop index)(.+)")){

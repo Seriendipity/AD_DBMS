@@ -1,13 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<scs> 
-  <sc sno="12" sname="2" ssex="3"/>  
-  <sc sno="1" sname="3" ssex="2"/>  
-  <sc sno="3" sname="3" ssex="2"/>  
-  <sc sno="11" sname="5" ssex="1"/>  
-  <sc sno="5" sname="3" ssex="3"/>  
-  <sc sno="6" sname="2" ssex="1"/>  
-  <sc sno="9" sname="6" ssex="6"/>  
-  <sc sno="7" sname="5" ssex="6"/>  
-  <sc sno="3" sname="4" ssex="2"/> 
-</scs>
+<scs/>
