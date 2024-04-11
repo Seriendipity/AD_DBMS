@@ -9,6 +9,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -131,6 +134,60 @@ public class DBMS_GUI extends JFrame {
         copy.addActionListener(e -> sqlTextArea.copy());
         paste.addActionListener(e -> sqlTextArea.paste());
 
+        open.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    JOptionPane.showMessageDialog(null, "You selected: " + fileChooser.getSelectedFile().getAbsolutePath());
+                }
+            }
+        });
+
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 创建文件选择对话框
+                JFileChooser fileChooser = new JFileChooser();
+                // 显示文件选择对话框，并获取用户的操作结果
+                int result = fileChooser.showSaveDialog(null);
+                // 如果用户选择了保存文件的位置和文件名
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    // 获取用户选择的文件
+                    File file = fileChooser.getSelectedFile();
+                    try {
+                        // 创建一个用于向文件写入数据的 BufferedWriter
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                        // 将文本区域中的文本写入文件
+                        writer.write(sqlTextArea.getText());
+                        // 关闭 BufferedWriter
+                        writer.close();
+                        // 弹出消息框提示文件保存成功
+                        JOptionPane.showMessageDialog(null, "File saved successfully.");
+                    } catch (IOException ex) {
+                        // 弹出消息框提示保存文件时出错
+                        JOptionPane.showMessageDialog(null, "Error saving file: " + ex.getMessage());
+                    }
+                }
+
+            }
+        });
+
+        database.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            openNewDatabaseWindow();
+            }
+        });
+
+        user.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openNewUserWindow();
+            }
+        });
+
         find.addActionListener(new ActionListener(){
 
             @Override
@@ -144,6 +201,15 @@ public class DBMS_GUI extends JFrame {
                 System.exit(0);
             }
         });
+
+        function.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openFunctionFrame();
+            }
+        });
+
+        soft.addActionListener(e -> openSoftFrame());
 
         //添加到各自板块
         menuBar.add(fileMenu);
@@ -279,7 +345,12 @@ public class DBMS_GUI extends JFrame {
         cut1.addActionListener(e -> sqlTextArea.cut());
         copy1.addActionListener(e -> sqlTextArea.copy());
         paste1.addActionListener(e -> sqlTextArea.paste());
-//        find.addActionListener(e -> sqlTextArea.findComponentAt());
+        run1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
         /*-------------------文本区域的滚动面板-------------------*/
         sqlTextArea = new JTextArea();
@@ -319,25 +390,166 @@ public class DBMS_GUI extends JFrame {
     //构造函数结尾
     }
 
-    //查找界面的出现
+    //打开功能帮助界面
+    private void openFunctionFrame() {
+        JFrame functionHelp = new JFrame("Sub Window");
+        functionHelp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        functionHelp.setLocationRelativeTo(null); // 居中显示
 
+        // 创建文本区域，并设置初始文本
+        JTextArea textArea = new JTextArea("功能介绍");
+        textArea.setLineWrap(true); // 自动换行
+        textArea.setWrapStyleWord(true); // 不截断单词
+        textArea.setEditable(false); // 设置文本区域为只读
 
-    //查找功能
-    private void findText() {
-        String findText = JOptionPane.showInputDialog(null, "Find:");
-        if (findText != null && !findText.isEmpty()) {
-            String content = sqlTextArea.getText();
-            int index = content.indexOf(findText, sqlTextArea.getCaretPosition());
-            if (index != -1) {
-                sqlTextArea.requestFocusInWindow();
-                sqlTextArea.select(index, index + findText.length());
-                sqlTextArea.setCaretPosition(index + findText.length());
-            } else {
-                JOptionPane.showMessageDialog(null, "Text not found");
-            }
-        }
+        // 创建滚动窗格，将文本区域放入滚动窗格中
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        // 设置滚动窗格的尺寸
+        scrollPane.setPreferredSize(new Dimension(400, 300));
+
+        // 将滚动窗格添加到子窗口中
+        functionHelp.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        functionHelp.pack();
+        functionHelp.setVisible(true);
     }
 
+    //打开软件帮助界面
+    private void openSoftFrame() {
+        JFrame softHelp = new JFrame("软件介绍");
+        softHelp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        softHelp.setLocationRelativeTo(null); // 居中显示
+
+        // 创建文本区域，并设置初始文本
+        JTextArea textArea = new JTextArea("这是AD_DBMS系统\n使用Java为底层代码编写的DBMS系统");
+        textArea.setLineWrap(true); // 自动换行
+        textArea.setWrapStyleWord(true); // 不截断单词
+        textArea.setEditable(false); // 设置文本区域为只读
+
+        // 创建滚动窗格，将文本区域放入滚动窗格中
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        // 设置滚动窗格的尺寸
+        scrollPane.setPreferredSize(new Dimension(400, 300));
+
+        // 将滚动窗格添加到子窗口中
+        softHelp.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        softHelp.pack();
+        softHelp.setVisible(true);
+    }
+
+    private void openNewUserWindow() {
+        JFrame newUser = new JFrame("新建用户");
+        newUser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newUser.setLocationRelativeTo(null); // 居中显示
+
+        JPanel subPanel = new JPanel(new GridLayout(3, 1));
+
+        JLabel nameLabel = new JLabel("名称");
+        JTextField nameTextField = new JTextField(20);
+
+        JLabel passwordLabel = new JLabel("root密码");
+        JPasswordField passwordField = new JPasswordField(20);
+
+        subPanel.add(nameLabel);
+        subPanel.add(nameTextField);
+        subPanel.add(passwordLabel);
+        subPanel.add(passwordField);
+
+        JButton okButton = new JButton("确定");
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = nameTextField.getText();
+                String password = new String(passwordField.getPassword());
+                //这里调用创建用户的方法
+
+
+
+
+                newUser.dispose();
+            }
+        });
+
+        JButton cancelButton = new JButton("取消");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newUser.dispose();
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
+
+        newUser.getContentPane().add(subPanel, BorderLayout.CENTER);
+        newUser.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        newUser.pack();
+        newUser.setVisible(true);
+    }
+
+    //新建数据库的界面
+    private void openNewDatabaseWindow() {
+        // 创建子窗口
+        JFrame newDatabase = new JFrame("新建数据库");
+        // 设置子窗口关闭时不退出程序，而是只关闭子窗口
+        newDatabase.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // 设置子窗口居中显示
+        newDatabase.setLocationRelativeTo(null);
+        // 创建一个面板，使用网格布局管理器，包含一个标签和一个文本框
+        JPanel subPanel = new JPanel(new GridLayout(2, 1));
+
+        JLabel label = new JLabel("名称");
+        JTextField textField = new JTextField(20);
+
+        subPanel.add(label);
+        subPanel.add(textField);
+
+        // 创建确定和取消按钮
+        JButton okButton = new JButton("确定");
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 在确定按钮的点击事件中处理逻辑，例如获取文本框中的内容并进行处理
+                String name = textField.getText();
+                // 这部分调用创建数据的函数
+
+
+
+
+
+
+
+                // 关闭子窗口
+                newDatabase.dispose();
+            }
+        });
+
+        JButton cancelButton = new JButton("取消");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 取消按钮直接关闭子窗口
+                newDatabase.dispose();
+            }
+        });
+
+        // 创建一个面板，包含确定和取消按钮
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
+
+        // 将文本框面板和按钮面板添加到子窗口中
+        newDatabase.getContentPane().add(subPanel, BorderLayout.CENTER);
+        newDatabase.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        // 调整子窗口大小以适应组件的首选大小
+        newDatabase.pack();
+        // 设置子窗口可见
+        newDatabase.setVisible(true);
+    }
 
     private void executeSQL() {
         String sql = sqlTextArea.getText();
