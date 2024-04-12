@@ -34,7 +34,7 @@ public class SqlParserTest {
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
     //    InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("13","RJ"));
-//        UseDatabase.databaseName = "demo1";
+        UseDatabase.databaseName = "demo1";
         //UpdateDataFromTable.updateDataFromTable("demo1","table2",List.of(List.of("Sno=011"),List.of("Sname=jj")));
        // ShowTableStruct.showTableStruct("demo1","table2");\
 //        List<String> list = new ArrayList<>();
@@ -42,5 +42,7 @@ public class SqlParserTest {
 //        list.add("Sno=11");
 //        SelectDataFromTable.select("demo1","table2", Collections.singletonList("Sname"),list);
 //     System.out.println("This is a test for the sql");
+
+        CreateIndex.createIndex("demo1","table2","Sno","table2_index");
     }
 }

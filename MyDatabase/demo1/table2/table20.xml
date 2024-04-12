@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <table2s> 
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="11" Sname="bj"/>  
+  <table2 Sno="11" Sname="bj"/>
   <table2 Sno="011" Sname="jj"/> 
 </table2s>

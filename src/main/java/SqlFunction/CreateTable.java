@@ -45,10 +45,11 @@ public class CreateTable {
         //记录主键的名称
         rootElem.addElement("indexName");
         //写入操作
+
         writeIO(table,document);
 
         //创建表的物理层第一张子表
-        File firstFile=new File("./mydatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"0.xml");
+        File firstFile=new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"0.xml");
         Document firstDocument=DocumentHelper.createDocument();
         firstDocument.addElement(TableName+"s");
         //写入操作
@@ -56,7 +57,7 @@ public class CreateTable {
 
         System.out.println(TableName+"表创建成功");
     }
-
+    //更新document树，写入外存
     public static void writeIO(File file, Document document) throws IOException {
         //文件输出的位置
         FileOutputStream outputStream = new FileOutputStream(file);

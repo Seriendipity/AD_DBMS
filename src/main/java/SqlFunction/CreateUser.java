@@ -21,7 +21,7 @@ public class CreateUser {
         Scanner scanner = new Scanner(System.in);
         String userName,password;
         while(true){
-            System.out.println("请输入您的用户名");
+            System.out.println("请输入要要创建的用户名");
             userName = scanner.nextLine();
             boolean isLegal;
             isLegal = true;

@@ -11,7 +11,7 @@ public class Main {
         for(int i = 0; i < list.size();i++){
             int key = Integer.parseInt(list.get(i).get(0));
             String value = list.get(i).get(1);
-            //newTree.insert(key,value);
+            newTree.insert(key,value);
         }
         //Utils.printTree(newTree)
         return newTree;
@@ -23,7 +23,7 @@ public class Main {
         for(int i = 0; i < list.size(); i++){
             int key = Integer.parseInt(list.get(i).get(0).substring(1,list.get(i).get(0).length()));
             String value = list.get(i).get(1);
-            //tree.insert(key,value);
+            tree.insert(key,value);
         }
         return tree;
     }
