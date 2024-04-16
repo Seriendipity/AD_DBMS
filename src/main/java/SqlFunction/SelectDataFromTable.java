@@ -120,16 +120,17 @@ public class SelectDataFromTable {
                     if (attribute.getName().equals(condition[0]) && attribute.getText().equals(condition[1])) {
                         conditionFind = true;
                         find = true;
-                        break;
+                        if (find) {
+                            for (Iterator k = list.iterator(); k.hasNext(); ) {
+                                Attribute attribute1 = (Attribute) k.next();
+                                System.out.println(attribute1.getName() + "=" + attribute1.getText() + " ");
+                            }
+                            System.out.println();
+                        }
+                        find = false;
                     }
                 }
-                if (find) {
-                    for (Iterator i = list.iterator(); i.hasNext(); ) {
-                        Attribute attribute = (Attribute) i.next();
-                        System.out.println(attribute.getName() + "=" + attribute.getText() + " ");
-                    }
-                    System.out.println();
-                }
+
             }
         }
         if (!conditionFind) {
