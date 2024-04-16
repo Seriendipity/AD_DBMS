@@ -72,7 +72,7 @@ public class InsertDataIntoTable {
                 //更新文件数量
                 int fileAmountInt = (Integer.parseInt(writeFileElement.getText())+1);
                 String fileAmount = ("" + fileAmountInt);
-                for(int i = 1; i < value1.size(); i++){
+                for(int i = 0; i < value1.size(); i++){
                     newChild.addAttribute(value1.get(i),value2.get(i));
                 }
                 CreateTable.writeIO(writeFile,document);
@@ -91,7 +91,7 @@ public class InsertDataIntoTable {
             else{
                 //创建新节点
                 Element childElement = rootElement.addElement(TableName);
-                for(int i = 1; i < value1.size(); i++){
+                for(int i = 0; i < value1.size(); i++){
                     childElement.addAttribute(value1.get(i),value2.get(i));
                 }
                 CreateTable.writeIO(writeFile,document);
