@@ -32,14 +32,18 @@ public class ConnectSqlParser {
             createTable(UseDatabase.databaseName,tableName,listName);
         } else if (operation.equals("create index")) {
             System.out.println("调用create index方法");
-            String indexName = list.get(1);
+            String indexFileName = list.get(1);
             String tableName = parameterList.get(1).get(1);
-           // createIndex(UseDatabase.databaseName,tableName,indexName);
+            String[] parts = parameterList.get(2).get(1).split(" ");
+            String indexName = parts[0];
+            createIndex(UseDatabase.databaseName,tableName,indexName,indexFileName);
         } else if (operation.equals("create index on")) {
             System.out.println("调用create index on方法");
             String tableName = list.get(1);
-            String indexName = tableName+"_index";
-           // createIndex(UseDatabase.databaseName,tableName,indexName);
+            String indexFileName = tableName+"_index";
+            String[] parts = parameterList.get(1).get(1).split(" ");
+            String indexName = parts[0];
+            createIndex(UseDatabase.databaseName,tableName,indexName,indexFileName);
         } else if(operation.equals("drop database")){
             System.out.println("调用删除数据库方法");
             String databaseName = list.get(1);
