@@ -86,6 +86,8 @@ public class CreateIndex {
         Document document =  DocumentHelper.createDocument();
         Element rootElem = document.addElement(TableName+"s");
 
+        indexFileName = indexFile.getName();
+
         for(int i = 0; i < indexFileList.size(); i++){
             rootElem.addAttribute("k"+indexFileList.get(i).get(0),IndexName);
         }
