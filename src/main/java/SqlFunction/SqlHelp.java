@@ -9,14 +9,15 @@ public class SqlHelp {
         System.out.println("--Create database yourDatabaseName;");
         System.out.println("--Create User yourUserName;");
         System.out.println("--Create index on yourTableName (ColumnName [DESC|ASC]);");
+        System.out.println("--Create index YourIndexName on yourTableName (ColumnName [DESC|ASC]);");
         System.out.println("--Create table yourTableName (ColumnName ColumnType constriction,[...]);");
         System.out.println("(2)Drop语句");
         System.out.println("--Drop database yourDatabaseName; ");
         System.out.println("--Drop table yourTableName;");
         //System.out.println("---");
         System.out.println("(3)Show语句");
-        System.out.println("--Show databases MyDatabases;");
-        System.out.println("--Show tables yourDatabaseName;");
+        System.out.println("--Show databases MyDatabases;(Tips:databases)");
+        System.out.println("--Show tables yourDatabaseName;(Tips:tables)");
         System.out.println("---describe yourTableName;");
         System.out.println("(4)Insert into语句");
         System.out.println("--Insert into yourTableName (ColumnName,[...]) values (ColumnValue,[...]),[(...)];");

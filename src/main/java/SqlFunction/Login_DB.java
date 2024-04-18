@@ -38,7 +38,7 @@ public class Login_DB {
                 SqlHelp.Help();
             } else{
                 parameterList = SqlAnalysis.generateParser(sql);
-//                System.out.println("hello");
+ //               System.out.println("hello");
                 connectSql(parameterList);
             }
         }
