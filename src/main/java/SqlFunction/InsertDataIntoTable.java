@@ -84,7 +84,7 @@ public class InsertDataIntoTable {
                 //插入数据后更新索引
                 if(needUpdateIndex){
                     String indexFileName = CreateIndex.indexFileName;
-                    CreateIndex.updateIndexInsert(TableName, value2.get(1),writeFileName,indexFileName);
+                    CreateIndex.updateIndexInsert(DatabaseName,TableName, value2.get(1),writeFileName,indexFileName);
                 }
             }
             //否则在最后一条记录后插入
@@ -100,7 +100,7 @@ public class InsertDataIntoTable {
                 //插入数据后更新索引
                 if(needUpdateIndex){
                     String indexFileName = CreateIndex.indexFileName;
-                    CreateIndex.updateIndexInsert(TableName,value2.get(1),writeFileName,indexFileName);
+                    CreateIndex.updateIndexInsert(DatabaseName,TableName,value2.get(1),writeFileName,indexFileName);
                 }
             }
         }

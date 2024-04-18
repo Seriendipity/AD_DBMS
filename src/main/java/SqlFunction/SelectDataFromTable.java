@@ -1,5 +1,6 @@
 package SqlFunction;
 
+import BPlusTree.BPlusTree;
 import com.sun.source.tree.ArrayAccessTree;
 import org.dom4j.*;
 import org.dom4j.io.SAXReader;
@@ -46,6 +47,7 @@ public class SelectDataFromTable {
                 }else{
                     System.out.println("查询带查询");
                     //TODO
+                    selectWithIndex(DatabaseName,TableName,Colunms,Conditions);
                 }
             }
 
@@ -61,8 +63,9 @@ public class SelectDataFromTable {
                 if(!Judge.hasIndex(DatabaseName,TableName) || !Judge.isIndex(configFile,key)){
                     selectFromTable(DatabaseName,TableName,Colunms,Conditions);
                 }else{
-                    System.out.println("查询带查询");
+                    System.out.println("带索引的查询");
                     //TODO
+                    selectWithIndex(DatabaseName,TableName,Colunms,Conditions);
                 }
             }
         }
@@ -237,4 +240,48 @@ public class SelectDataFromTable {
         }
     }
     //TODO
+    //建立索引后的查询select 列名称1，列名称2 from where 列名称 = 列值
+    public static void selectWithIndex(String DatabaseName, String TableName, List<String> value1, List<String> value2) throws DocumentException {
+        //存where条件的condition数组
+        String[] condition = new String[0];
+        condition = value2.get(1).split("=");
+        int key = Integer.parseInt(condition[1]);
+        //找到该表索引对应的B+树
+        BPlusTree newTree = CreateIndex.findTree(TableName);
+        String fileName = newTree.search(key);
+        boolean condition_Find = false;
+        boolean conditionFind = false;
+        boolean elementFind = false;
+
+        File file = new File("./MyDatabase/"+ DatabaseName + "/"+ TableName + "/" +fileName + ".xml");
+        //解析XML
+        SAXReader reader = new SAXReader();
+        Document document = reader.read(file);
+        Element rootElement = document.getRootElement();
+
+        List<Node> nodes = rootElement.selectNodes(TableName);
+
+        for(Node node : nodes){
+            Element node1 = (Element) node;
+            List<Attribute> list = node1.attributes();
+            for(Iterator i = list.iterator();i.hasNext();){
+                Attribute attribute = (Attribute) i.next();
+                if(attribute.getName().equals(condition[0]) && attribute.getText().equals(condition[1])){
+                    condition_Find = true;
+                    conditionFind = true;
+                    if(conditionFind){
+                        for(Iterator j = list.iterator(); j.hasNext();){
+                            Attribute attribute1 = (Attribute) i.next();
+                            System.out.println(attribute1.getName() + "=" +attribute1.getText() + " ");
+                        }
+                    }
+                }
+            }
+            System.out.println();
+        }
+        if(!condition_Find){
+            System.out.println("未找到记录");
+            return;
+        }
+    }
 }

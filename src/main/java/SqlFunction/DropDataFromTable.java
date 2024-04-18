@@ -1,5 +1,6 @@
 package SqlFunction;
 
+import BPlusTree.BPlusTree;
 import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
@@ -43,6 +44,18 @@ public class DropDataFromTable {
         }else{
             //主键查询删除
             //TODO:
+            BPlusTree tree = CreateIndex.findTree(TableName);
+            String fileName = tree.search(Integer.parseInt(columns[1]));
+            String num = fileName.substring(fileName.length()-1,fileName.length());
+            File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+fileName+".xml");
+            find = delete(file,DatabaseName,TableName,columns,num);
+            //删数据后更新索引
+            String indexFileName = CreateIndex.indexFileName;
+            if(find){
+                CreateIndex.updateIndexDelete(DatabaseName,TableName,columns[1],indexFileName);
+                return;
+            }
+            System.out.println("没找到要删除的记录");
         }
     }
 

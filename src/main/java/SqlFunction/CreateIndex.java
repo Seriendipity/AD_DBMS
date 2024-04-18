@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class CreateIndex {
-    static public String indexFileName;
+    public static String indexFileName;
     //B+树的地方
     static public Map<String, BPlusTree> bMap = new HashMap<String,BPlusTree>();
     //存储所有索引B+树的list,每次进入系统都会把索引文件以B+树的形式加载到内存当中去
@@ -73,7 +73,6 @@ public class CreateIndex {
         treeList.add(tmpMap);
 
         System.out.println("索引创建成功");
-        indexFileName = IndexFileName;
         //更新配置文件，记录表中是否建立索引，建立索引为true，名称为index
         Element indexElement = (Element) configFileDocument.getRootElement().selectSingleNode("index");
         indexElement.setText("1");
@@ -82,7 +81,7 @@ public class CreateIndex {
         //写入操作
         CreateTable.writeIO(configFile,configFileDocument);
         //写入索引文件
-        File indexFile = new File("./MyDatabase/"+IndexFileName+".xml");
+        File indexFile = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         Document document =  DocumentHelper.createDocument();
         Element rootElem = document.addElement(TableName+"s");
 
@@ -106,14 +105,14 @@ public class CreateIndex {
     }
 
     //插入新数据后修改索引文件和B+树
-    public static void updateIndexInsert(String TableName,String key,String value,String indexFileName) throws DocumentException, IOException {
+    public static void updateIndexInsert(String DatabaseName,String TableName,String key,String value,String IndexFileName) throws DocumentException, IOException {
         for(int i = 0; i < treeList.size();i++){
             if(treeList.get(i).containsKey(TableName)){
                 treeList.get(i).get(TableName).insert(Integer.parseInt(key),value);
                 break;
             }
         }
-        File file = new File("./MyDatabase/"+indexFileName+".xml");
+        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element root = document.getRootElement();
@@ -128,7 +127,7 @@ public class CreateIndex {
         System.out.println("索引更新成功");
     }
     //更新数据后修改索引文件和B+树
-    public static void updateIndexUpdate(String TableName,String key,String value,String indexFileName) throws DocumentException, IOException {
+    public static void updateIndexUpdate(String DatabaseName,String TableName,String key,String value,String IndexFileName) throws DocumentException, IOException {
         for(int i = 0; i < treeList.size();i++){
             if(treeList.get(i).containsKey(TableName)){
                 treeList.get(i).get(TableName).update(Integer.parseInt(key),value);
@@ -136,7 +135,7 @@ public class CreateIndex {
             }
         }
         //更新索引文件
-        File file  = new File("./MyDatabase/"+indexFileName+".xml");
+        File file  = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element root = document.getRootElement();
@@ -158,7 +157,7 @@ public class CreateIndex {
         System.out.println("索引更新成功");
     }
     //删除数据后修改索引文件和B+树
-    public static void updateIndexDelete(String TableName,String key,String IndexFileName) throws DocumentException, IOException {
+    public static void updateIndexDelete(String DatabaseName,String TableName,String key,String IndexFileName) throws DocumentException, IOException {
         //删除B+树节点
         for(int i = 0; i < treeList.size();i++){
             if(treeList.get(i).containsKey(TableName)){
@@ -166,7 +165,7 @@ public class CreateIndex {
             }
         }
         //更新索引文件
-        File file =  new File("./MyDatabase/"+IndexFileName+".xml");
+        File file =  new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element root = document.getRootElement();
@@ -188,8 +187,8 @@ public class CreateIndex {
         System.out.println("索引更新成功");
     }
     //每次登录加载索引
-    public static void loadIndex(String IndexFileName) throws DocumentException {
-        File file = new File("./MyDatabase/"+IndexFileName+"xml");
+    public static void loadIndex(String DatabaseName,String TableName,String IndexFileName) throws DocumentException {
+        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element element = document.getRootElement();
@@ -212,5 +211,8 @@ public class CreateIndex {
             tmpMap.put(tableElement.getName(),newTree);
             treeList.add(tmpMap);
         }
+    }
+    public void setIndexFileName(String indexFileName){
+        this.indexFileName = indexFileName;
     }
 }

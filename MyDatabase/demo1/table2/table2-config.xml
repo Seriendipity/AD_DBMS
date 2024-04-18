@@ -3,6 +3,6 @@
 <table2s Sno="int" Sname="char"> 
   <table2>0</table2>  
   <insertTables/>  
-  <index/>
-  <indexName/>
+  <index>0</index>  
+  <indexName>Sno</indexName> 
 </table2s>
