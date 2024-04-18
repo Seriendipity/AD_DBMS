@@ -1,3 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<scs/>
+<scs> 
+  <sc sno="2" sname="2"/>  
+  <sc sno="4" sname="5"/>  
+  <sc sno="9" sname="4"/>  
+  <sc sno="3" sname="5"/>  
+  <sc sno="1" sname="4"/>  
+  <sc sno="2" sname="6"/>  
+  <sc sno="3" sname="7"/>  
+  <sc sno="2" sname="2"/>  
+  <sc sno="3" sname="3"/>  
+  <sc sno="1"/> 
+</scs>

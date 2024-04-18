@@ -3,6 +3,6 @@
 <scs sno="int" sname="char(6)"> 
   <sc>0</sc>  
   <insertTables/>  
-  <index>1</index>  
-  <indexName>s</indexName> 
+  <index/>
+  <indexName/>
 </scs>
