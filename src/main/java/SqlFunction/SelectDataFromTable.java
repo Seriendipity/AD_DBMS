@@ -120,7 +120,7 @@ public class SelectDataFromTable {
                 List<Attribute> list = node1.attributes();
                 for (Iterator i = list.iterator(); i.hasNext(); ) {
                     Attribute attribute = (Attribute) i.next();
-                    if (attribute.getName().equals(condition[0]) && attribute.getText().equals(condition[1])) {
+                    if (attribute.getName().toLowerCase().equals(condition[0]) && attribute.getText().equals(condition[1])) {
                         conditionFind = true;
                         find = true;
                         if (find) {
@@ -167,7 +167,7 @@ public class SelectDataFromTable {
                     //把列的属性全部打印下来
                     for (int k = 0; k < value1.size(); k++) {
                         //列名相同
-                        if (attribute.getName().equals(value1.get(k))) {
+                        if (attribute.getName().toLowerCase().equals(value1.get(k))) {
                             columnsFind = true;
                             System.out.println(attribute.getName() + "=" + attribute.getText() + " ");
                             break;
@@ -208,25 +208,23 @@ public class SelectDataFromTable {
                 List<Attribute> list = node1.attributes();
                 for(Iterator i = list.iterator();i.hasNext();){
                     Attribute attribute = (Attribute) i.next();
-                    if(attribute.getName().equals(condition[0]) && attribute.getText().equals(condition[1])){
+                    if(attribute.getName().toLowerCase().equals(condition[0]) && attribute.getText().equals(condition[1])){
                         conditionFind = true;
                         find = true;
-                        break;
-                    }
-                }
-                if(find){
-                    for(Iterator i = list.iterator();i.hasNext();){
-                        Attribute attribute = (Attribute) i.next();
-                        for(int k = 0; k < value1.size();k++){
-                            if(attribute.getName().equals(value1.get(k))){
-                            elementFind = true;
-
-                            System.out.println(attribute.getName()+"="+attribute.getText()+" ");
-                            break;
+                    }if(find){
+                        for(Iterator n = list.iterator();n.hasNext();) {
+                            Attribute attribute1 = (Attribute) n.next();
+                            for (int k = 0; k < value1.size(); k++) {
+                                if (attribute1.getName().toLowerCase().equals(value1.get(k))) {
+                                    elementFind = true;
+                                    System.out.println(attribute1.getName() + "=" + attribute1.getText() + " ");
+                                    break;
+                                }
+                            }
+                            find = false;
+                            System.out.println();
                         }
                     }
-                }
-                System.out.println();
                 }
             }
         }
@@ -266,7 +264,7 @@ public class SelectDataFromTable {
             List<Attribute> list = node1.attributes();
             for(Iterator i = list.iterator();i.hasNext();){
                 Attribute attribute = (Attribute) i.next();
-                if(attribute.getName().equals(condition[0]) && attribute.getText().equals(condition[1])){
+                if(attribute.getName().toLowerCase().equals(condition[0]) && attribute.getText().equals(condition[1])){
                     condition_Find = true;
                     conditionFind = true;
                     if(conditionFind){
