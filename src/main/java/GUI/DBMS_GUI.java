@@ -273,6 +273,15 @@ public class DBMS_GUI extends JFrame {
                 JOptionPane.showMessageDialog(null,"未找到该数据库","错误",JOptionPane.ERROR_MESSAGE);
             }
         }
+        //切换到use dbname;
+        String useDataBase = "use" + dbName + ";";
+        System.out.println("sssssss");
+        List<List<String>> result = SqlAnalysis.generateParser(useDataBase);
+        try {
+            ConnectSqlParser.connectSql(result);
+        } catch (IOException | DocumentException e) {
+        }
+
 
     }
     /*--------------------点击后显示表结构方法-------------------*/
