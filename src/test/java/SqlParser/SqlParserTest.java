@@ -39,12 +39,15 @@ public class SqlParserTest {
        // UpdateDataFromTable.updateDataFromTable("demo1","table2",List.of(List.of("Sno=011"),List.of("Sname=jj")));
       //  ShowTableStruct.showTableStruct("demo1","table2");
       List<String> list = new ArrayList<>();
-      list.add("Where");
-      list.add("Sname=jj");
-      SelectDataFromTable.select("demo1","table2", null,list);
+    //  list.add("Where");
+  //    list.add("Sname=jj");
+//      SelectDataFromTable.select("demo1","table2", null,list);
 //     System.out.println("This is a test for the sql");
 
       // CreateIndex.createIndex("demo1","table2","Sno","table2_index");
     //   DropIndex.dropIndex("demo1","table2","table2_index");
+
+        list.add("grade");
+        DropColumn.dropColumn(UseDatabase.databaseName,"table2",list);
     }
 }

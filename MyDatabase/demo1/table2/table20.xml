@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <table2s> 
-  <table2 Sno="11" Sname="bj"/>  
-  <table2 Sno="011" Sname="jj"/>  
-  <table2 Sno="01" Sname="RJ"/>  
-  <table2 Sno="02" Sname="RJ"/>  
-  <table2 Sno="03" Sname="RJ"/>  
-  <table2 Sno="04" Sname="RJ"/>  
-  <table2 Sno="12" Sname="bj"/>
+  <table2 Sno="11" Sname="bj" Cno="1"/>
+  <table2 Sno="011" Sname="jj" Cno="2"/>
+  <table2 Sno="01" Sname="RJ" Cno="3"/>
+  <table2 Sno="02" Sname="RJ" Cno="4"/>
+  <table2 Sno="03" Sname="RJ" Cno="5"/>
+  <table2 Sno="04" Sname="RJ" Cno="6"/>
+  <table2 Sno="12" Sname="bj" Cno="7"/>
 </table2s>
