@@ -1,5 +1,6 @@
 package GUI;
 
+import SqlFunction.UseDatabase;
 import Utils.SqlAnalysis;
 import Utils.ConnectSqlParser;
 import org.dom4j.Attribute;
@@ -179,6 +180,8 @@ public class DBMS_GUI extends JFrame {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //FIXME: 下述数据库名仅仅为了答辩展示，以后需要在解析
+                UseDatabase.databaseName = "demo1";
                 showTree();
             }
         });

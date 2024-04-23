@@ -28,6 +28,11 @@ public class SqlHelp {
         System.out.println("--Select * from yourTableName where yourCondition");
         System.out.println("--Select columnName from yourTableName");
         System.out.println("--Select columnName from yourTableName where yourCondition");
+        System.out.println("(7)Alter语句");
+        System.out.println("--Alter table yourTableName add column yourColumnName ColumnType");
+        System.out.println("--Alter table yourTableName drop column yourColumnName");
+        System.out.println("(8)查看日志文件");
+        System.out.println("--watch LogFile");
         System.out.println("----------------------------------------------------------------------------------------");
     }
 }
