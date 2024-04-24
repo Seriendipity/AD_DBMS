@@ -23,7 +23,8 @@ public class ConnectSqlParser {
             createDatabase(dataBaseName);
         }else if(operation.equals("create user")){
             System.out.println("创建一个用户");
-            //CreateUser.createUser();
+            UseUser.userName = list.get(1);
+            CreateUser.createUser(UseUser.userName);
         }else if(operation.equals("create table")){
             System.out.println("调用创建table方法");
             String tableName = list.get(1);
@@ -61,6 +62,13 @@ public class ConnectSqlParser {
             }else{
                 System.out.println("当前并没有该数据库，请重新输入");
             }
+        } else if (operation.equals("use user")) {
+            String userName = list.get(1);
+
+            UseUser.userName = userName;
+            System.out.println("切换到user " + UseUser.userName);
+
+
         } else if(operation.equals("insert into")){
             System.out.println("调用insert方法");
             String insertTableName = list.get(1);

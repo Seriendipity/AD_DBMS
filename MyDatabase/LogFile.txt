@@ -6,3 +6,10 @@
 2024-04-23 12:45:47 watch logfile; WRONG HAPPEN
 2024-04-23 12:46:40 watch logfile;
 2024-04-23 12:47:29 watch logfile;
+2024-04-24 22:35:09 create user mhb;
+2024-04-24 22:38:22 create user mhb;
+2024-04-24 22:38:47 use mhb;
+2024-04-24 22:50:23 use user mhb;
+2024-04-24 22:52:52 use user mhb;
+2024-04-24 22:55:11 use user mhb;
+2024-04-24 22:55:25 create table s(sno int,sname char);

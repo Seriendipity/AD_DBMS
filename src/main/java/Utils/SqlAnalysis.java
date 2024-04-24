@@ -33,10 +33,13 @@ public class SqlAnalysis {
         }else if(contains(sql,"(drop table)(.+)")){
             System.out.println("匹配正则表达式：drop table");
             bp = new DropTableSqlParser(sql);
-        }else if(contains(sql,"(use)(.+)")){
+        }else if (contains(sql,"(use user)(.+)")) {
+            System.out.println("匹配正则表达式：use user XX");
+            bp = new UseUserSqlParser(sql);
+        } else if(contains(sql,"(use)(.+)")){
             System.out.println("匹配正则表达式：use");
             bp = new UseSqlParser(sql);
-        }else if(contains(sql,"(insert into)([^\\(]+)(values)(.+)")){
+        } else if(contains(sql,"(insert into)([^\\(]+)(values)(.+)")){
             System.out.println("匹配正则表达式：insert into XX values()");
             bp = new InsertAllValuesSqlParser(sql);
         }else if(contains(sql,"(insert into)(.+)(values)(.+)")){
