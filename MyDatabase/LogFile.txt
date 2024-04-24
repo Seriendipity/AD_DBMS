@@ -1,0 +1,8 @@
+2024-04-23 12:35:33 use test;
+2024-04-23 12:35:47 insert table table ; WRONG HAPPEN
+2024-04-23 12:36:04 select * from sc;
+2024-04-23 12:44:52 watch logfile; WRONG HAPPEN
+2024-04-23 12:45:34 watch logfile; WRONG HAPPEN
+2024-04-23 12:45:47 watch logfile; WRONG HAPPEN
+2024-04-23 12:46:40 watch logfile;
+2024-04-23 12:47:29 watch logfile;

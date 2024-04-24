@@ -36,11 +36,19 @@ public class Login_DB {
                 return;
             } else if (sql.equals(" help;")) {
                 SqlHelp.Help();
+            } else if (sql.equals(" watch logfile;")) {
+                RecordOperationLog.printLogFile();
             } else{
                 parameterList = SqlAnalysis.generateParser(sql);
- //               System.out.println("hello");
-                connectSql(parameterList);
+                try{
+                    connectSql(parameterList);
+                }catch (Exception e){
+                  e.printStackTrace();
+                  RecordOperationLog.recordLog(sql + " WRONG HAPPEN");
+                  continue;
+                }
             }
+            RecordOperationLog.recordLog(sql);
         }
 
     }

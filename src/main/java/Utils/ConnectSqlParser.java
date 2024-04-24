@@ -131,6 +131,17 @@ public class ConnectSqlParser {
         } else if (operation.equals("show databases")) {
             System.out.println("调用showDatabases方法");
             ShowDatabases.showDatabases();
+        } else if (operation.equals("alter table")) {
+            String tableName = list.get(1);
+            List<String> AddColumnInformation = new ArrayList<String>();
+            List<String> DropColumnInformation = new ArrayList<String>();
+            if(parameterList.get(1).get(0).equals("add column")){
+                AddColumnInformation.add(parameterList.get(1).get(1));
+                AddColumn.addColumn(UseDatabase.databaseName,tableName,AddColumnInformation);
+            }else if(parameterList.get(1).get(0).equals("drop column")){
+                DropColumnInformation.add(parameterList.get(1).get(1));
+                DropColumn.dropColumn(UseDatabase.databaseName,tableName,DropColumnInformation);
+            }
         } else{
             System.out.println("有待开发");
         }
