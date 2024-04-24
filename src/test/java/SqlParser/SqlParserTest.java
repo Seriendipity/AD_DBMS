@@ -33,12 +33,12 @@ public class SqlParserTest {
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
-       UseDatabase.databaseName = "demo1";
+       //UseDatabase.databaseName = "demo1";
        // InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("13","RJ"));
 
        // UpdateDataFromTable.updateDataFromTable("demo1","table2",List.of(List.of("Sno=011"),List.of("Sname=jj")));
       //  ShowTableStruct.showTableStruct("demo1","table2");
-      List<String> list = new ArrayList<>();
+   //   List<String> list = new ArrayList<>();
     //  list.add("Where");
   //    list.add("Sname=jj");
 //      SelectDataFromTable.select("demo1","table2", null,list);
@@ -47,7 +47,10 @@ public class SqlParserTest {
       // CreateIndex.createIndex("demo1","table2","Sno","table2_index");
     //   DropIndex.dropIndex("demo1","table2","table2_index");
 
-        list.add("grade");
-        DropColumn.dropColumn(UseDatabase.databaseName,"table2",list);
+     //   list.add("grade int-primary");
+    //    AddColumn.addColumn("demo1","table2",list);
+        //DropColumn.dropColumn(UseDatabase.databaseName,"table2",list);
+        //CreateUser.createUser("cxh");
+        Judge.isUser("cxh","123456");
     }
 }

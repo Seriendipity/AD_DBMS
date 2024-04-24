@@ -23,7 +23,7 @@ public class ConnectSqlParser {
             createDatabase(dataBaseName);
         }else if(operation.equals("create user")){
             System.out.println("创建一个用户");
-            CreateUser.createUser();
+            //CreateUser.createUser();
         }else if(operation.equals("create table")){
             System.out.println("调用创建table方法");
             String tableName = list.get(1);

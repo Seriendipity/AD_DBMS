@@ -1,11 +1,13 @@
 package SqlFunction;
 
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
+import java.util.Iterator;
 
 public class Judge {
     //判断数据库是否为空
@@ -84,6 +86,30 @@ public class Judge {
     public static boolean needLoadIndex(){
 
         return false;
+    }
+
+    public static boolean findUser(String userName){
+        File userFile = new File("./"+userName+"/user.xml");
+        if(userFile.exists()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    //TODO:用户匹配完之后的权限控制
+    public static boolean isUser(String userName,String key) throws DocumentException {
+        File file  = new File("./"+userName+"/user.xml");
+        SAXReader saxReader = new SAXReader();
+        Document document = saxReader.read(file);
+        Element rootElement = document.getRootElement();
+        Element element = (Element)rootElement.selectSingleNode("user");
+        if(element.attribute("userKey").getText().equals(key)){
+            System.out.println("用户匹配成功");
+            return true;
+        }else{
+            System.out.println("密码错误");
+            return false;
+        }
     }
 }
 
