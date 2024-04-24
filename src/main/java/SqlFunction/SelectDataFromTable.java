@@ -77,7 +77,7 @@ public class SelectDataFromTable {
         String lastFileNum = Judge.lastFileName(DatabaseName, TableName);
         for (int j = Integer.parseInt(lastFileNum); j >= 0; j--) {
             String num = "" + j;
-            File file = new File("./MyDatabase/" + DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
             //解析xml文件
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(file);
@@ -109,7 +109,7 @@ public class SelectDataFromTable {
 
         for (int j = Integer.parseInt(lastFileNum); j >= 0; j--) {
             String num = "" + j;
-            File file = new File("./MyDatabase/" + DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(file);
             Element rootElement = document.getRootElement();
@@ -151,7 +151,7 @@ public class SelectDataFromTable {
 
         for (int j = Integer.parseInt(lastFileNum); j >= 0; j--) {
             String num = "" + j;
-            File file = new File("./MyDatabase/" + DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
 
             //解析XML文件
             SAXReader saxReader = new SAXReader();
@@ -195,7 +195,7 @@ public class SelectDataFromTable {
 
         for(int j = Integer.parseInt(lastFileNum);j>=0;j--){
             String num = "" + j;
-            File file = new File("./MyDatabase/" + DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
             //解析XML
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(file);
@@ -251,7 +251,7 @@ public class SelectDataFromTable {
         boolean conditionFind = false;
         boolean elementFind = false;
 
-        File file = new File("./MyDatabase/"+ DatabaseName + "/"+ TableName + "/" +fileName + ".xml");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName + "/"+ TableName + "/" +fileName + ".xml");
         //解析XML
         SAXReader reader = new SAXReader();
         Document document = reader.read(file);

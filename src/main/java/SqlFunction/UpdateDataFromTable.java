@@ -33,7 +33,7 @@ public class UpdateDataFromTable {
             //倒过来遍历
             for(int j = Integer.parseInt(currentFile);j >= 0; j--){
                 String num = ""+j;
-                File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+num+".xml");
+                File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+num+".xml");
                 find = update(TableName,file,values,values2);
                 //找到记录
                 if(find){

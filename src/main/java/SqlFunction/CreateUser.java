@@ -31,7 +31,8 @@ public class CreateUser {
         File dkmir =new File ("./"+userName+"");
         dkmir.mkdir();
         File file = new File("./"+userName+"/user.xml");
-
+        File dkmir2 = new File("./"+userName+"/MyDatabase");
+        dkmir2.mkdir();
         Document document = DocumentHelper.createDocument();
         Element rootElem = document.addElement(userName+"i");
         rootElem.addElement("user").addAttribute("name",userName).addAttribute("userKey",password);

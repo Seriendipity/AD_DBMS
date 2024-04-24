@@ -4,7 +4,7 @@ import java.io.*;
 
 public class DropTable {
     public static void dropTable(String databaseName, String tableName) {
-        File directory = new File("./MyDatabase/" + databaseName + "/" + tableName);
+        File directory = new File("./"+UseUser.userName+"/MyDatabase/"+databaseName + "/" + tableName);
         if (directory.exists()) {
             if (directory.isDirectory()) {
                 // 如果是文件夹，则依次删除文件夹内的内容

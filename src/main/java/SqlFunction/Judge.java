@@ -24,7 +24,7 @@ public class Judge {
     //判断数据库是否存在
     public static boolean isDatabase(){
         String DatabaseName = UseDatabase.databaseName;
-        File file = new File("./MyDatabase");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/");
         File[] files = file.listFiles();
         for(int i = 0; i < files.length;i++){
             if(files[i].getName().equals(DatabaseName));
@@ -35,12 +35,12 @@ public class Judge {
 
     //判断表是否存在，并返回xml的配置文件
     public static File isTable(String DatabaseName, String TableName){
-        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"");
         if(!file.exists()){
             System.out.println(TableName+"表格不存在");
             return null;
         }else{
-            file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
+            file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
             return file;
         }
     }
@@ -60,7 +60,7 @@ public class Judge {
 
     //判断一个表是否建立的主键索引
     public static boolean hasIndex(String DatabaseName,String TableName) throws DocumentException {
-        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element element = (Element) document.getRootElement().selectSingleNode("index");

@@ -30,7 +30,7 @@ public class InsertDataIntoTable {
         if(insertableElement.selectNodes("insertTables").size()>0){
             writeFileName = TableName + insertableElement.selectSingleNode("insertTables").getText();
             //创建写入对象，获取记录数量
-            File writeFile = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+writeFileName+".xml");
+            File writeFile = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+writeFileName+".xml");
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(writeFile);
             Element rootElement = document.getRootElement();
@@ -57,7 +57,7 @@ public class InsertDataIntoTable {
         else{
             writeFileName = TableName + writeFileElement.getText();
             //创建写入对象，获取记录数量
-            File writeFile = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+writeFileName+".xml");
+            File writeFile = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+writeFileName+".xml");
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(writeFile);
             Element rootElement = document.getRootElement();

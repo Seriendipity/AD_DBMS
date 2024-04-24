@@ -34,7 +34,7 @@ public class DropIndex {
         element.setText("0");
         CreateTable.writeIO(file,document);
         //删除文件中的索引文件
-        File indexFile = new File("./MyDataBase/"+DatabaseName+"/"+TableName+"/"+indexFileName+".xml");
+        File indexFile = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+indexFileName+".xml");
         indexFile.delete();
         System.out.println("索引删除成功");
     }

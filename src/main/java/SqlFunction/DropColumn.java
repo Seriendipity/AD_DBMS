@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DropColumn {
     public static void dropColumn(String DatabaseName, String TableName, List<String> columnName) throws DocumentException, IOException {
-        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element rootElement = (Element) document.selectSingleNode(TableName+"s");

@@ -17,7 +17,7 @@ public class SqlParserTest {
 //        CreateTable table = new CreateTable("demo2","table1");
 //        DropDatabase dropDatabase = new DropDatabase("demo2");
         //测试显示数据库
-        //InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
+
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
 //        InsertDataIntoTable.insertDataIntoTable("demo1","table2", List.of("Sno","Sname"),List.of("11","bj"));
@@ -38,7 +38,7 @@ public class SqlParserTest {
 
        // UpdateDataFromTable.updateDataFromTable("demo1","table2",List.of(List.of("Sno=011"),List.of("Sname=jj")));
       //  ShowTableStruct.showTableStruct("demo1","table2");
-   //   List<String> list = new ArrayList<>();
+      List<String> list = new ArrayList<>();
     //  list.add("Where");
   //    list.add("Sname=jj");
 //      SelectDataFromTable.select("demo1","table2", null,list);
@@ -50,7 +50,13 @@ public class SqlParserTest {
      //   list.add("grade int-primary");
     //    AddColumn.addColumn("demo1","table2",list);
         //DropColumn.dropColumn(UseDatabase.databaseName,"table2",list);
-        //CreateUser.createUser("cxh");
-        Judge.isUser("cxh","123456");
+       // CreateUser.createUser("cxh");
+       // Judge.isUser("cxh","123456");
+        UseUser.setUserName("cxh");
+    //    CreateDatabase.createDatabase("demo1");
+   //     list.add("Sno int");
+    //    CreateTable.createTable("demo1","table1",list);
+        InsertDataIntoTable.insertDataIntoTable("demo1","table1", List.of("Sno"),List.of("11"));
+
     }
 }

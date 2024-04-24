@@ -16,7 +16,7 @@ public class ShowTableStruct {
             return;
         }
         SAXReader saxReader = new SAXReader();
-        Document document = saxReader.read("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
+        Document document = saxReader.read("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
         Element rootElement = document.getRootElement();
         List<Attribute> list = rootElement.attributes();
         System.out.println("NAME:TYPE");

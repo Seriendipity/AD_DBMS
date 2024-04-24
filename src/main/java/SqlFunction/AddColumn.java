@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AddColumn {
     public static void addColumn(String DatabaseName, String TableName,List<String> column) throws DocumentException, IOException {
-        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element rootElement = (Element) document.getRootElement();

@@ -15,9 +15,9 @@ public class CreateTable {
     public static void createTable(String DatabaseName, String TableName, List<String> body)throws IOException{
         //在databaseName下创建表格
         //先判断有没有数据库
-        File dir = new File("./MyDatabase/"+DatabaseName+"");
+        File dir = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"");
         if(dir.exists()){
-            File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"");
+            File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"");
             if(!file.exists()){
                 file.mkdir();
             }else{
@@ -27,7 +27,7 @@ public class CreateTable {
             System.out.println("不存在该数据库！");
             return;
         }
-        File table = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
+        File table = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
         Document document = DocumentHelper.createDocument();
         Element rootElem = document.addElement(TableName+"s");
 
@@ -50,7 +50,7 @@ public class CreateTable {
         writeIO(table,document);
 
         //创建表的物理层第一张子表
-        File firstFile=new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"0.xml");
+        File firstFile=new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"0.xml");
         Document firstDocument=DocumentHelper.createDocument();
         firstDocument.addElement(TableName+"s");
         //写入操作

@@ -16,7 +16,7 @@ public class DropDataFromTable {
     //delete from TableName where column = value
     public static void dropFromTable(String DatabaseName, String TableName, List<String> temp) throws DocumentException, IOException {
         //数据库是否为空
-        File dir = new File("./MyDatabase/"+DatabaseName+"");
+        File dir = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"");
         if(Judge.isDatabaseEmpty()){
             return;
         }
@@ -34,7 +34,7 @@ public class DropDataFromTable {
                 //traverseFile 用来遍历所有文件
                 String lastNum = ""+i;
                 //创建写入的对象，创建sax的解析器，document对象，获得root节点
-                File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+lastNum+".xml");
+                File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+lastNum+".xml");
                 find = delete(file, DatabaseName,TableName,columns,lastNum);
                 if(find){
                     return;
@@ -47,7 +47,7 @@ public class DropDataFromTable {
             BPlusTree tree = CreateIndex.findTree(TableName);
             String fileName = tree.search(Integer.parseInt(columns[1]));
             String num = fileName.substring(fileName.length()-1,fileName.length());
-            File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+fileName+".xml");
+            File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+fileName+".xml");
             find = delete(file,DatabaseName,TableName,columns,num);
             //删数据后更新索引
             String indexFileName = CreateIndex.indexFileName;
@@ -92,7 +92,7 @@ public class DropDataFromTable {
 
                 //更新xml配置文件,确保表格的信息准确
                 if(isFull){
-                    File file1 = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"-config.xml");
+                    File file1 = new File("./"+UseUser.userName+"/"+DatabaseName+"/"+TableName+"-config.xml");
                     SAXReader saxReader1 = new SAXReader();
                     Document document1 = saxReader1.read(file1);
                     Element element1 = (Element) document1.getRootElement().addElement("insertTables");

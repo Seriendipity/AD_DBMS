@@ -8,7 +8,7 @@ import static SqlFunction.DropTable.dropTable;
 public class DropDatabase {
     public static void dropDatabase(String DatabaseName){
         boolean flag = false;
-        File dir = new File("./MyDatabase/"+DatabaseName+"");
+        File dir = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"");
             //如果该目录不存在的话
         if(!dir.exists()){
             System.out.println("数据库"+DatabaseName+"不存在！");

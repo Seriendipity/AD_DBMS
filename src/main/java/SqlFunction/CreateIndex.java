@@ -43,7 +43,7 @@ public class CreateIndex {
         for(int j = Integer.parseInt(fileNameElement.getText());j >= 0; j--) {
             String fileName = TableName + Integer.toString(j);
             //打开逻辑表的物理层的文件，解析每一份文件，获取并列的所有记录的父节点
-            File file = new File("./MyDatabase/" + DatabaseName + "/" + TableName + "/" + fileName + ".xml");
+            File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName + "/" + TableName + "/" + fileName + ".xml");
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(file);
             Element rootElement = document.getRootElement();
@@ -81,7 +81,7 @@ public class CreateIndex {
         //写入操作
         CreateTable.writeIO(configFile,configFileDocument);
         //写入索引文件
-        File indexFile = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
+        File indexFile = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         Document document =  DocumentHelper.createDocument();
         Element rootElem = document.addElement(TableName+"s");
 
@@ -112,7 +112,7 @@ public class CreateIndex {
                 break;
             }
         }
-        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element root = document.getRootElement();
@@ -135,7 +135,7 @@ public class CreateIndex {
             }
         }
         //更新索引文件
-        File file  = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
+        File file  = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element root = document.getRootElement();
@@ -165,7 +165,7 @@ public class CreateIndex {
             }
         }
         //更新索引文件
-        File file =  new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
+        File file =  new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element root = document.getRootElement();
@@ -188,7 +188,7 @@ public class CreateIndex {
     }
     //每次登录加载索引
     public static void loadIndex(String DatabaseName,String TableName,String IndexFileName) throws DocumentException {
-        File file = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+IndexFileName+".xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
         Element element = document.getRootElement();

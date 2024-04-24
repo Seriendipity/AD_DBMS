@@ -19,13 +19,13 @@ public class InsertIntoTable {
             return;
         }
         //表格是否存在
-        File file = new File("./MyDatabase/" + DatabaseName + "/" + TableName + "");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName + "/" + TableName + "");
         if(!file.exists()){
             System.out.println(TableName + "表不存在");
             return;
         }
         //打开配置文件，获取文件名作为写入文件
-        File configFile = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
+        File configFile = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+TableName+"-config.xml");
         SAXReader configFileReader = new SAXReader();
         Document configFileDocument =  configFileReader.read(configFile);
         Element writeFileElement = (Element) configFileDocument.getRootElement().selectSingleNode(TableName);
@@ -35,7 +35,7 @@ public class InsertIntoTable {
         if(writeFileElement.selectNodes("insertTables").size() > 0){
             writeFileName = TableName + writeFileElement.selectSingleNode("insertTables").getText();
             //创建写入对象，获取记录数量
-            File writeFile = new File("./MyDatabase/"+DatabaseName+"/"+TableName+writeFileName+".xml");
+            File writeFile = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+writeFileName+".xml");
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(writeFile);
             Element rootElement = document.getRootElement();
@@ -65,7 +65,7 @@ public class InsertIntoTable {
             //否则插入数据到最后一个文件
             writeFileName = TableName+writeFileElement.getText();
             //创建写入对象，获取记录数量
-            File writeFile = new File("./MyDatabase/"+DatabaseName+"/"+TableName+"/"+writeFileName+".xml");
+            File writeFile = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName+"/"+TableName+"/"+writeFileName+".xml");
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(writeFile);
             Element rootElement = document.getRootElement();
