@@ -77,7 +77,7 @@ public class SelectDataFromTable {
         String lastFileNum = Judge.lastFileName(DatabaseName, TableName);
         for (int j = Integer.parseInt(lastFileNum); j >= 0; j--) {
             String num = "" + j;
-            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
             //解析xml文件
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(file);
@@ -195,7 +195,7 @@ public class SelectDataFromTable {
 
         for(int j = Integer.parseInt(lastFileNum);j>=0;j--){
             String num = "" + j;
-            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
             //解析XML
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(file);
