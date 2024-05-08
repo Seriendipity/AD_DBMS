@@ -415,10 +415,28 @@ public class DBMS_GUI extends JFrame {
                 JTable table = new JTable(model);
                 // 创建滚动面板，将表格放入其中
                 JScrollPane tableScrollPane = new JScrollPane(table);
-                managePanel.add(tableScrollPane,BorderLayout.CENTER);
-                // 重新布局
-                managePanel.revalidate();
-                managePanel.repaint();
+
+                //新建一个对话框存放该表格
+                JDialog tableDialog = new JDialog();
+                tableDialog.setTitle(tableName);
+                tableDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                tableDialog.setLayout(new BorderLayout());
+                tableDialog.add(tableScrollPane,BorderLayout.CENTER);
+                //关闭按钮
+                JButton closeButton = new JButton("关闭");
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tableDialog.dispose();
+                    }
+                });
+                tableDialog.setSize(600,400);
+                tableDialog.setLocationRelativeTo(null);
+                tableDialog.setVisible(true);
+//                managePanel.add(tableScrollPane,BorderLayout.CENTER);
+//                // 重新布局
+//                managePanel.revalidate();
+//                managePanel.repaint();
 
             } catch (DocumentException e) {
                 e.printStackTrace();
