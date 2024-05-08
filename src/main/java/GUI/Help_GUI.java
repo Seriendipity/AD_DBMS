@@ -18,26 +18,28 @@ public class Help_GUI extends JFrame {
                         " --Create index on yourTableName (ColumnName [DESC|ASC]);\n" +
                         " --Create index YourIndexName on yourTableName (ColumnName [DESC|ASC]);\n" +
                         " --Create table yourTableName (ColumnName ColumnType constriction,[...]);\n" +
-                        " (2)Drop语句\n" +
+                        " (2)Use语句\n" +
+                        " --Use yourDatabaseName;\n" +
+                        " (3)Drop语句\n" +
                         " --Drop database yourDatabaseName; \n" +
                         " --Drop table yourTableName;\n" +
-                        " (3)Show语句\n" +
+                        " (4)Show语句\n" +
                         " --Show databases MyDatabases;(Tips:databases)\n" +
                         " --Show tables yourDatabaseName;(Tips:tables)\n" +
                         " ---describe yourTableName;\n" +
-                        " (4)Insert into语句\n" +
+                        " (5)Insert into语句\n" +
                         " --Insert into yourTableName (ColumnName,[...]) values (ColumnValue,[...]),[(...)];\n" +
-                        " (5)Update语句\n" +
+                        " (6)Update语句\n" +
                         " --Update table yourTableName set Column=ChangeValue where Column=OriginalValue---(Tip:set和where的等号前后不要有空格)\n" +
-                        " (6)Select语句\n" +
+                        " (7)Select语句\n" +
                         " --Select * from yourTableName;\n" +
                         " --Select * from yourTableName where yourCondition\n" +
                         " --Select columnName from yourTableName\n" +
                         " --Select columnName from yourTableName where yourCondition\n" +
-                        " (7)Alter语句\n" +
+                        " (8)Alter语句\n" +
                         " --Alter table yourTableName add column yourColumnName ColumnType\n" +
                         " --Alter table yourTableName drop column yourColumnName\n" +
-                        " (8)查看日志文件\n" +
+                        " (9)查看日志文件\n" +
                         " --watch LogFile\n" +
                         " ----------------------------------------------------------------------------------------");
         textArea.setLineWrap(true); // 自动换行

@@ -38,6 +38,7 @@ public class DBMS_GUI extends JFrame {
 
     private static JLabel dbLabel = new JLabel("数据库资源管理器");
 
+
     public DBMS_GUI() {
 
         setTitle("AD_DBMS");
@@ -78,42 +79,11 @@ public class DBMS_GUI extends JFrame {
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    JOptionPane.showMessageDialog(null, "You selected: " + fileChooser.getSelectedFile().getAbsolutePath());
-                }
+                connectDatabase();
             }
         });
 
-        save.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 创建文件选择对话框
-                JFileChooser fileChooser = new JFileChooser();
-                // 显示文件选择对话框，并获取用户的操作结果
-                int result = fileChooser.showSaveDialog(null);
-                // 如果用户选择了保存文件的位置和文件名
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    // 获取用户选择的文件
-                    File file = fileChooser.getSelectedFile();
-                    try {
-                        // 创建一个用于向文件写入数据的 BufferedWriter
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                        // 将文本区域中的文本写入文件
-                        writer.write(sqlTextArea.getText());
-                        // 关闭 BufferedWriter
-                        writer.close();
-                        // 弹出消息框提示文件保存成功
-                        JOptionPane.showMessageDialog(null, "File saved successfully.");
-                    } catch (IOException ex) {
-                        // 弹出消息框提示保存文件时出错
-                        JOptionPane.showMessageDialog(null, "Error saving file: " + ex.getMessage());
-                    }
-                }
 
-            }
-        });
 
         newDataBaseMenu.addActionListener(new ActionListener() {
             @Override
@@ -238,7 +208,7 @@ public class DBMS_GUI extends JFrame {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showTree();
+                connectDatabase();
             }
         });
 
@@ -272,17 +242,25 @@ public class DBMS_GUI extends JFrame {
         JPopupMenu popupMenu = new JPopupMenu();
 
         // 创建菜单项
-        JMenuItem copyItem = new JMenuItem("复制");
+        JMenuItem actionItem = new JMenuItem("运行");
         JMenuItem pasteItem = new JMenuItem("粘贴");
         JMenuItem cutItem = new JMenuItem("剪切");
 
+        actionItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                executeSQL();
+            }
+        });
+
+
         // 将菜单项添加到 JPopupMenu
-        popupMenu.add(copyItem);
+        popupMenu.add(actionItem);
         popupMenu.add(pasteItem);
         popupMenu.add(cutItem);
 
         // 为文本域添加鼠标监听器
-        managePanel.addMouseListener(new MouseAdapter() {
+        sqlTextArea.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 showPopup(e);
@@ -303,10 +281,20 @@ public class DBMS_GUI extends JFrame {
 
     //构造函数结尾
     }
-    /*--------------------显示树结构方法-------------------*/
-    public static void showTree() {
 
-        String dbName = JOptionPane.showInputDialog(null,"请输入数据库的名称","连接数据库",JOptionPane.PLAIN_MESSAGE);
+    /*--------------------连接数据库-------------------*/
+    public static void connectDatabase(){
+        if(UseUser.userName != ""){
+            String dbName = JOptionPane.showInputDialog(null,"请输入数据库的名称","连接数据库",JOptionPane.PLAIN_MESSAGE);
+            showTree(dbName);
+        }else{
+            JOptionPane.showMessageDialog(null, "请先登录！\n 菜单->用户->登录");
+        }
+
+    }
+
+    /*--------------------显示树结构方法-------------------*/
+    public static void showTree(String dbName) {
         if (dbName!= null){
             File folder = new File("./"+UseUser.userName+"./MyDatabase/"+dbName+"");
             if (folder.exists() && folder.isDirectory()) {
@@ -440,17 +428,32 @@ public class DBMS_GUI extends JFrame {
         }
     }
 
+    //点击运行后的解析
     private void executeSQL() {
         String sql = sqlTextArea.getText().replaceAll("\\n|\\r", "");
+        String[] sqlArray = sql.split(";");
+        new SQLlist_GUI(sqlArray);
+    }
+
+    //运行sql语句
+    public static void actionSQL(String sql) {
         List<List<String>> result = SqlAnalysis.generateParser(sql);
         try {
             ConnectSqlParser.connectSql(result);
         } catch (IOException | DocumentException e) {
-            JOptionPane.showMessageDialog(this,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
+    private void executeSQL2() {
+        String sql = sqlTextArea.getText().replaceAll("\\n|\\r", "");
+        String[] sqlArray = sql.split(";");
+        List<List<String>> result = SqlAnalysis.generateParser(sql);
+        try {
+            ConnectSqlParser.connectSql(result);
+        } catch (IOException | DocumentException e) {
+            JOptionPane.showMessageDialog(null,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     //新建数据库的界面
     private void openNewDatabaseWindow() {
         // 创建子窗口
