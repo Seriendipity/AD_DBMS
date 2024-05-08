@@ -43,3 +43,4 @@
 2024-05-05 21:25:45 use user mhb;
 2024-05-05 21:25:49 use test;
 2024-05-05 21:26:10 update table table1 set sno=1111 where sname=16;
+2024-05-07 20:01:49 use mhb;

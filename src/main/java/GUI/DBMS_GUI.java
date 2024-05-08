@@ -18,6 +18,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.BadLocationException;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 
@@ -378,9 +379,9 @@ public class DBMS_GUI extends JFrame {
     /*--------------------点击后显示表结构方法-------------------*/
     private static void loadTable(String dbName,String tableName) {
         // 加载配置文件
-        File configFile = new File("./"+UseUser.userName+"./MyDatabase/" + dbName + "/" + tableName + "/" + tableName+"-config.xml");
+        File configFile = new File("./"+UseUser.userName+"/MyDatabase/" + dbName + "/" + tableName + "/" + tableName+"-config.xml");
         // 加载数据文件
-        File dataFile = new File("./"+UseUser.userName+"./MyDatabase/" + dbName + "/" + tableName + "/" + tableName+"0.xml");
+        File dataFile = new File("./"+UseUser.userName+"/MyDatabase/" + dbName + "/" + tableName + "/" + tableName+"0.xml");
         if (configFile.exists() && dataFile.exists()) {
             try {
                 /*------------解析配置文件-------------*/
@@ -422,16 +423,33 @@ public class DBMS_GUI extends JFrame {
                     // 将数据行添加到表格模型中
                     model.addRow(rowData);
                 }
-
                 // 创建表格并设置模型
                 JTable table = new JTable(model);
                 // 创建滚动面板，将表格放入其中
                 JScrollPane tableScrollPane = new JScrollPane(table);
-                managePanel.add(tableScrollPane,BorderLayout.CENTER);
-                // 重新布局
-                managePanel.revalidate();
-                managePanel.repaint();
 
+                //新建一个对话框存放该表格
+                JDialog tableDialog = new JDialog();
+                tableDialog.setTitle(tableName);
+                tableDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                tableDialog.setLayout(new BorderLayout());
+                tableDialog.add(tableScrollPane,BorderLayout.CENTER);
+                //关闭按钮
+                JButton closeButton = new JButton("关闭");
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tableDialog.dispose();
+                    }
+                });
+                tableDialog.setSize(600,400);
+                tableDialog.setLocationRelativeTo(null);
+                tableDialog.setVisible(true);
+//
+//                managePanel.add(tableScrollPane,BorderLayout.CENTER);
+//                // 重新布局
+//                managePanel.revalidate();
+//                managePanel.repaint();
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
@@ -441,7 +459,22 @@ public class DBMS_GUI extends JFrame {
     }
 
     private void executeSQL() {
-        String sql = sqlTextArea.getText().replaceAll("\\n|\\r", "");
+        String sql = sqlTextArea.getText();
+        int lineCount = sqlTextArea.getLineCount();
+        //获取文本框的最后一行作为本次执行的操作（但是这样就限制了不能换行输入）
+        try{
+            int lastLineStart = sqlTextArea.getLineStartOffset(lineCount - 1);//获取当前行字符串开始的索引
+            int lastLineEnd = sqlTextArea.getLineEndOffset(lineCount - 1);//获取当前行字符串结束的索引
+            sql = sql.substring(lastLineStart,lastLineEnd);//获取最后一行字符串
+            sql = sql.trim();
+            sql = sql.toLowerCase();
+            sql = sql.replaceAll("\\s+"," ");
+            sql = sql.substring(0,sql.lastIndexOf(";"));
+            sql = " " + sql + ";";
+            System.out.println(sql);
+        }catch (BadLocationException e){
+            e.printStackTrace();
+        }
         List<List<String>> result = SqlAnalysis.generateParser(sql);
         try {
             ConnectSqlParser.connectSql(result);
@@ -548,3 +581,4 @@ public class DBMS_GUI extends JFrame {
         }
     }
 }
+

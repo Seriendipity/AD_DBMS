@@ -33,6 +33,9 @@ public class SqlHelp {
         System.out.println("--Alter table yourTableName drop column yourColumnName");
         System.out.println("(8)查看日志文件");
         System.out.println("--watch LogFile");
+        System.out.println("(9)Use语句(以下两个语句需要先执行)");
+        System.out.println("--use user YourUserName;");
+        System.out.println("--use YourDatabaseName;");
         System.out.println("----------------------------------------------------------------------------------------");
     }
 }
