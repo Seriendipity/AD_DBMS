@@ -42,7 +42,7 @@ public class SqlParserTest {
     //  list.add("Where");
   //    list.add("Sname=jj");
 //      SelectDataFromTable.select("demo1","table2", null,list);
-//     System.out.println("This is a test for the sql");
+//     System.out.println("This is 1a test for the sql");
 
       // CreateIndex.createIndex("demo1","table2","Sno","table2_index");
     //   DropIndex.dropIndex("demo1","table2","table2_index");
@@ -52,11 +52,11 @@ public class SqlParserTest {
         //DropColumn.dropColumn(UseDatabase.databaseName,"table2",list);
        // CreateUser.createUser("cxh");
        // Judge.isUser("cxh","123456");
-        UseUser.setUserName("cxh");
+        UseUser.setUserName("zsm");
     //    CreateDatabase.createDatabase("demo1");
    //     list.add("Sno int");
     //    CreateTable.createTable("demo1","table1",list);
-        InsertDataIntoTable.insertDataIntoTable("demo1","table1", List.of("Sno"),List.of("11"));
+//        InsertDataIntoTable.insertDataIntoTable("demo1","table1", List.of("Sno"),List.of("11"));
 
     }
 }
