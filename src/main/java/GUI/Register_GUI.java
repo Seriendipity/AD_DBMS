@@ -1,7 +1,6 @@
 package GUI;
 import SqlFunction.CreateTable;
 import SqlFunction.Judge;
-import SqlFunction.UseUser;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -12,12 +11,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
-public class Login_GUI extends JFrame {
+public class Register_GUI extends JFrame {
 
-    public Login_GUI() {
-        setTitle("登录");
+    public Register_GUI() {
+        setTitle("注册");
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -30,7 +28,7 @@ public class Login_GUI extends JFrame {
         gbc.insets = new Insets(5, 5, 5, 5); // 设置组件之间的间距
 
         // 添加名称标签和文本框
-        JLabel nameLabel = new JLabel("用户名:");
+        JLabel nameLabel = new JLabel("输入您的用户名:");
         subPanel.add(nameLabel, gbc);
 
         gbc.gridy++;
@@ -39,27 +37,25 @@ public class Login_GUI extends JFrame {
 
         // 添加密码标签和密码框
         gbc.gridy++;
-        JLabel passwordLabel = new JLabel("密码:");
+        JLabel passwordLabel = new JLabel("您的密码:");
         subPanel.add(passwordLabel, gbc);
 
         gbc.gridy++;
         JPasswordField passwordField = new JPasswordField(20);
         subPanel.add(passwordField, gbc);
 
-        JButton okButton = new JButton("登录");
+        JButton okButton = new JButton("注册");
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameTextField.getText();
                 String password = new String(passwordField.getPassword());
-                //这里调用登录的方法
+                //这里调用创建用户的方法
                 try {
-                    useUser(name,password);
-                } catch (DocumentException ex) {
-                    ex.printStackTrace();
-                    // 处理异常
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    createUser(name, password);
+                    dispose();
+                } catch (DocumentException | IOException ex) {
+                    JOptionPane.showMessageDialog(Register_GUI.this, "创建用户失败: " + ex.getMessage());
                 }
                 dispose();
             }
@@ -72,12 +68,12 @@ public class Login_GUI extends JFrame {
                 dispose();
             }
         });
-        JButton regisButton = new JButton("前往注册");
+        JButton regisButton = new JButton("前往登录");
         regisButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Register_GUI();
+                new Login_GUI();
             }
         });
 
@@ -94,19 +90,29 @@ public class Login_GUI extends JFrame {
         setVisible(true);
     }
 
-    public void useUser(String userName, String password) throws DocumentException, IOException {
-        if (Judge.findUser(userName)) {
-            if (Judge.isUser(userName, password)) {
-                UseUser.userName = userName;
-                JOptionPane.showMessageDialog(null, "登录成功");
-                DBMS_GUI.setDBLabel(UseUser.userName+"的"+"\n"+"数据库资源管理器");
-            } else {
-                JOptionPane.showMessageDialog(null, "密码错误");
+    public void createUser(String userName, String password) throws DocumentException, IOException {
+        //获取用户的输入
+            boolean isLegal;
+            isLegal = true;
+            if(Judge.findUser(userName)){
+                JOptionPane.showMessageDialog(null, "用户名已存在请重新输入");
+                this.dispose();
+                new Register_GUI();
+                isLegal = false;
+            }
+            if(isLegal){
+                File dkmir =new File ("./"+userName+"");
+                dkmir.mkdir();
+                File file = new File("./"+userName+"/user.xml");
+                File dkmir2 = new File("./"+userName+"/MyDatabase");
+                dkmir2.mkdir();
+                Document document = DocumentHelper.createDocument();
+                Element rootElem = document.addElement(userName+"i");
+                rootElem.addElement("user").addAttribute("name",userName).addAttribute("userKey",password);
+                CreateTable.writeIO(file,document);
+                JOptionPane.showMessageDialog(null, "新用户"+userName+"创建成功！");
                 new Login_GUI();
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "用户不存在,请先注册");
-            new Register_GUI();
-        }
     }
+
 }
