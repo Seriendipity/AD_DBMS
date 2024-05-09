@@ -34,9 +34,8 @@ public class SQLlist_GUI extends JFrame {
                 int[] selectedIndices = sqlList.getSelectedIndices(); // 获取所选语句下标值
                 if (selectedIndices != null && selectedIndices.length > 0) {
                     for (int index : selectedIndices) {
-                        String selectedSQL = (String) sqlList.getModel().getElementAt(index) + ";"; // 根据下标获取SQL语句
+                        String selectedSQL = (String) sqlList.getModel().getElementAt(index).toLowerCase() + ";"; // 根据下标获取SQL语句
                         System.out.println("运行 SQL 语句: " + selectedSQL);
-
                         DBMS_GUI.actionSQL(selectedSQL);
                     }
                 } else {

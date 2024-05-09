@@ -39,7 +39,7 @@ public class DBMS_GUI extends JFrame {
 
     private static JLabel dbLabel = new JLabel("数据库资源管理器");
 
-
+    private JSplitPane splitPane2;
     public DBMS_GUI() {
 
         setTitle("AD_DBMS");
@@ -184,23 +184,24 @@ public class DBMS_GUI extends JFrame {
         JButton executeButton = new JButton("查询控制台");
         JButton actionButton = new JButton("运行");
         JButton connectButton = new JButton("连接已存在数据库");
+        JButton refreshButton = new JButton("刷新");
         toolBar.add(executeButton);
         toolBar.add(actionButton);
         toolBar.add(connectButton);
+        toolBar.add(refreshButton);
         //点击查询控制台之后
         executeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 在点击查询控制台按钮后显示文本区域
-                managePanel.add(textScrollPane, BorderLayout.CENTER);
-
                 //创建分隔面板(上下)
-                JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,true,textScrollPane,consoleScrollPane);
+                splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,true,textScrollPane,consoleScrollPane);
                 splitPane2.setDividerLocation(380);
                 splitPane2.setResizeWeight(0.7);
                 splitPane2.setDividerSize(3);
 
-                managePanel.add(splitPane2, BorderLayout.NORTH);
+                managePanel.remove(consoleScrollPane);
+                managePanel.add(splitPane2, BorderLayout.CENTER);
+
                 // 重新布局以确保文本区域显示
                 managePanel.revalidate();
                 managePanel.repaint();
@@ -220,6 +221,16 @@ public class DBMS_GUI extends JFrame {
                 connectDatabase();
             }
         });
+        //点击刷新
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+                if(UseDatabase.databaseName!=""){//已经连接数据库的话就要重新刷新显示树结构
+                    showTree(UseDatabase.databaseName);
+                }
+            }
+        });
 
         /*-------------------文本区域的滚动面板-------------------*/
 
@@ -227,12 +238,13 @@ public class DBMS_GUI extends JFrame {
         textScrollPane = new JScrollPane(sqlTextArea);//输入sql的
         consoleScrollPane = new JScrollPane(consoleTextArea);//返回结果的
 
+
         //大小适配
         managePanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                textScrollPane.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-250));
-                consoleScrollPane.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-textScrollPane.getHeight()-toolBar.getHeight()));
+                consoleScrollPane.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-toolBar.getHeight()));
+                splitPane2.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-toolBar.getHeight()));
                 toolBar.setPreferredSize(new Dimension(managePanel.getWidth(), 40));
             }
         });
@@ -252,8 +264,6 @@ public class DBMS_GUI extends JFrame {
         splitPane.setDividerLocation(200);
         splitPane.setResizeWeight(0.2);
         splitPane.setDividerSize(2);
-
-
 
 
         // 将组件添加到界面中
@@ -345,6 +355,7 @@ public class DBMS_GUI extends JFrame {
         }).start();
 
         System.out.println("程序输出：");
+
         //构造函数结尾
     }
 
@@ -352,7 +363,10 @@ public class DBMS_GUI extends JFrame {
     public static void connectDatabase(){
         if(UseUser.userName != ""){
             String dbName = JOptionPane.showInputDialog(null,"请输入数据库的名称","连接数据库",JOptionPane.PLAIN_MESSAGE);
-            showTree(dbName);
+            if(dbName!=null){
+                showTree(dbName);
+            }
+
         }else{
             JOptionPane.showMessageDialog(null, "请先登录！\n 菜单->用户->登录");
         }
@@ -406,7 +420,7 @@ public class DBMS_GUI extends JFrame {
                 JPanel dbPanel = new JPanel(new BorderLayout());
                 dbPanel.setBackground(new Color(232, 245, 230, 173));
 
-                JLabel dbLabel = new JLabel(UseUser.userName+"数据库资源管理器");
+                JLabel dbLabel = new JLabel(UseUser.userName+"的数据库资源管理器");
                 dbLabel.setFont(new Font("宋体", Font.BOLD, 15));
                 dbLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -420,13 +434,11 @@ public class DBMS_GUI extends JFrame {
         }
         //切换到use dbname;
         String useDataBase = "use" + dbName + ";";
-        System.out.println("sssssss");
         List<List<String>> result = SqlAnalysis.generateParser(useDataBase);
         try {
             ConnectSqlParser.connectSql(result);
         } catch (IOException | DocumentException e) {
         }
-
 
     }
     /*--------------------点击后显示表结构方法-------------------*/
@@ -525,16 +537,7 @@ public class DBMS_GUI extends JFrame {
             JOptionPane.showMessageDialog(null,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
         }
     }
-    private void executeSQL2() {
-        String sql = sqlTextArea.getText().replaceAll("\\n|\\r", "");
-        String[] sqlArray = sql.split(";");
-        List<List<String>> result = SqlAnalysis.generateParser(sql);
-        try {
-            ConnectSqlParser.connectSql(result);
-        } catch (IOException | DocumentException e) {
-            JOptionPane.showMessageDialog(null,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
-        }
-    }
+
     //新建数据库的界面
     private void openNewDatabaseWindow() {
         // 创建子窗口
