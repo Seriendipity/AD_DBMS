@@ -3,10 +3,11 @@ package SqlFunction;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class RecordOperationLog {
     public static void recordLog(String originalSql) {
-        File file = new File("./MyDatabase/LogFile.txt");
+        File file = new File("./"+UseUser.userName+"/MyDatabase/LogFile.txt");
         if(!file.exists()){
             try {
                 boolean success = file.createNewFile();

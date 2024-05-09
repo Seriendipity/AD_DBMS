@@ -42,6 +42,9 @@ public class Help_GUI extends JFrame {
                         " --Alter table yourTableName drop column yourColumnName\n" +
                         " (9)查看日志文件\n" +
                         " --watch LogFile\n" +
+                        "(9)Use语句(以下两个语句需要先执行)\n"+
+                        "--use user YourUserName;\n"+
+                        "--use user YourDatabaseName;\n"+
                         " ----------------------------------------------------------------------------------------");
         textArea.setLineWrap(true); // 自动换行
         textArea.setWrapStyleWord(true); // 不截断单词

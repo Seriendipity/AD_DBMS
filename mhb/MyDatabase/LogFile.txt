@@ -1,0 +1,6 @@
+2024-05-07 20:01:55 use user mhb;
+2024-05-07 20:03:21 select * from test;
+2024-05-07 20:03:28 use test;
+2024-05-08 20:31:36 use user mhb;
+2024-05-08 20:31:40 use test;
+2024-05-08 20:31:44 select * from table1;
