@@ -21,16 +21,17 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
 public class DBMS_GUI extends JFrame {
     private static final JTextArea sqlTextArea = new JTextArea();
+    private static final JTextArea consoleTextArea = new JTextArea();
     private JScrollPane textScrollPane;
+    private JScrollPane consoleScrollPane;
+
     private static JPanel managePanel = new JPanel();
     private static int searchIndex = -1;
 
@@ -155,7 +156,7 @@ public class DBMS_GUI extends JFrame {
         JPanel dbExplorer= new JPanel();
         dbExplorer.setBackground( new Color(232, 245, 230, 173));
 //        JLabel dbLabel = new JLabel("数据库资源管理器");
-        dbLabel.setFont(new Font("宋体",Font.BOLD,13));
+        dbLabel.setFont(new Font("宋体",Font.BOLD,15));
         dbExplorer.add(dbLabel,BorderLayout.NORTH);
         dbExplorerScrollPane.setViewportView(dbExplorer);
 
@@ -192,6 +193,14 @@ public class DBMS_GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // 在点击查询控制台按钮后显示文本区域
                 managePanel.add(textScrollPane, BorderLayout.CENTER);
+
+                //创建分隔面板(上下)
+                JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,true,textScrollPane,consoleScrollPane);
+                splitPane2.setDividerLocation(380);
+                splitPane2.setResizeWeight(0.7);
+                splitPane2.setDividerSize(3);
+
+                managePanel.add(splitPane2, BorderLayout.NORTH);
                 // 重新布局以确保文本区域显示
                 managePanel.revalidate();
                 managePanel.repaint();
@@ -213,25 +222,39 @@ public class DBMS_GUI extends JFrame {
         });
 
         /*-------------------文本区域的滚动面板-------------------*/
-//        sqlTextArea = new JTextArea();
-        textScrollPane = new JScrollPane(sqlTextArea);
+
+        sqlTextArea.setFont(new Font("微软雅黑",Font.PLAIN,18));
+        textScrollPane = new JScrollPane(sqlTextArea);//输入sql的
+        consoleScrollPane = new JScrollPane(consoleTextArea);//返回结果的
+
         //大小适配
         managePanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                textScrollPane.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-60));
+                textScrollPane.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-250));
+                consoleScrollPane.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-textScrollPane.getHeight()-toolBar.getHeight()));
                 toolBar.setPreferredSize(new Dimension(managePanel.getWidth(), 40));
             }
         });
 
         managePanel.add(toolBar,BorderLayout.NORTH);
+        managePanel.add(consoleScrollPane,BorderLayout.SOUTH);
 
+        //控制台
+        // 创建一个文本区域用于控制台输出
 
-        //创建分隔面板
+        consoleTextArea.setEditable(false); // 设置为不可编辑，只用于显示输出
+        consoleTextArea.setLineWrap(true); // 自动换行
+        consoleTextArea.setFont(new Font("宋体", Font.BOLD, 16)); // 设置字体和大小
+
+        //创建分隔面板(左右)
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,dbExplorerScrollPane,managePanel);
         splitPane.setDividerLocation(200);
         splitPane.setResizeWeight(0.2);
         splitPane.setDividerSize(2);
+
+
+
 
         // 将组件添加到界面中
         Container container = getContentPane();
@@ -279,7 +302,50 @@ public class DBMS_GUI extends JFrame {
             }
         });
 
-    //构造函数结尾
+        /*------------------更改输出流-----------------------*/
+        // 创建一个ByteArrayOutputStream来捕获输出
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // 创建一个新的PrintStream，将输出写入到ByteArrayOutputStream
+        final PrintStream printStream = new PrintStream(baos);
+
+        // 保存原始的System.out
+        final PrintStream originalOut = System.out;
+
+        // 重定向System.out
+        System.setOut(printStream);
+
+        // 使用一个线程来定期刷新并显示输出
+        new Thread(() -> {
+            while (true) {
+                try {
+                    // 等待一段时间（例如100毫秒）
+                    Thread.sleep(100);
+
+                    // 刷新并获取新的输出
+                    printStream.flush();
+                    byte[] bytes = baos.toByteArray();
+
+                    // 重置ByteArrayOutputStream，以便我们可以继续捕获新的输出
+                    baos.reset();
+
+                    // 将字节解码为字符串并添加到JTextArea（在EDT中执行）
+                    String text = new String(bytes, "UTF-8");
+                    SwingUtilities.invokeLater(() -> {
+                        consoleTextArea.append(text);
+                    });
+                } catch (InterruptedException e) {
+                    // 处理线程中断
+                    Thread.currentThread().interrupt();
+                    break;
+                } catch (IOException e) {
+                    // 处理IOException（这里不太可能出现，但为了完整性）
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        System.out.println("程序输出：");
+        //构造函数结尾
     }
 
     /*--------------------连接数据库-------------------*/
@@ -340,8 +406,8 @@ public class DBMS_GUI extends JFrame {
                 JPanel dbPanel = new JPanel(new BorderLayout());
                 dbPanel.setBackground(new Color(232, 245, 230, 173));
 
-                JLabel dbLabel = new JLabel("数据库资源管理器");
-                dbLabel.setFont(new Font("宋体", Font.BOLD, 13));
+                JLabel dbLabel = new JLabel(UseUser.userName+"数据库资源管理器");
+                dbLabel.setFont(new Font("宋体", Font.BOLD, 15));
                 dbLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
                 dbPanel.add(dbLabel, BorderLayout.NORTH);
@@ -415,10 +481,25 @@ public class DBMS_GUI extends JFrame {
                 JTable table = new JTable(model);
                 // 创建滚动面板，将表格放入其中
                 JScrollPane tableScrollPane = new JScrollPane(table);
-                managePanel.add(tableScrollPane,BorderLayout.CENTER);
-                // 重新布局
-                managePanel.revalidate();
-                managePanel.repaint();
+
+
+                //新建一个对话框存放该表格
+                JDialog tableDialog = new JDialog();
+                tableDialog.setTitle(tableName);
+                tableDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                tableDialog.setLayout(new BorderLayout());
+                tableDialog.add(tableScrollPane,BorderLayout.CENTER);
+                //关闭按钮
+                JButton closeButton = new JButton("关闭");
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tableDialog.dispose();
+                    }
+                });
+                tableDialog.setSize(600,400);
+                tableDialog.setLocationRelativeTo(null);
+                tableDialog.setVisible(true);
 
             } catch (DocumentException e) {
                 e.printStackTrace();
@@ -520,7 +601,7 @@ public class DBMS_GUI extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                final DBMS_GUI first_frame = new DBMS_GUI();
+                DBMS_GUI first_frame = new DBMS_GUI();
                 first_frame.setVisible(true);
             }
         });

@@ -19,6 +19,7 @@ public class Help_GUI extends JFrame {
                         " --Create index YourIndexName on yourTableName (ColumnName [DESC|ASC]);\n" +
                         " --Create table yourTableName (ColumnName ColumnType constriction,[...]);\n" +
                         " (2)Use语句\n" +
+                        " --Use yourUserName;\n" +
                         " --Use yourDatabaseName;\n" +
                         " (3)Drop语句\n" +
                         " --Drop database yourDatabaseName; \n" +
