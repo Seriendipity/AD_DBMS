@@ -1,5 +1,6 @@
 package GUI;
 
+import SqlFunction.RecordOperationLog;
 import SqlFunction.UseUser;
 import Utils.ConnectSqlParser;
 import Utils.SqlAnalysis;

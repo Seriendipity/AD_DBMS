@@ -1,5 +1,6 @@
 package GUI;
 
+import SqlFunction.RecordOperationLog;
 import SqlFunction.UseDatabase;
 import SqlFunction.UseUser;
 import Utils.SqlAnalysis;
@@ -244,6 +245,9 @@ public class DBMS_GUI extends JFrame {
             @Override
             public void componentResized(ComponentEvent e) {
                 consoleScrollPane.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-toolBar.getHeight()));
+                if(splitPane2 == null){
+                    return;
+                }
                 splitPane2.setPreferredSize(new Dimension(managePanel.getWidth(), managePanel.getHeight()-toolBar.getHeight()));
                 toolBar.setPreferredSize(new Dimension(managePanel.getWidth(), 40));
             }
@@ -533,8 +537,11 @@ public class DBMS_GUI extends JFrame {
         List<List<String>> result = SqlAnalysis.generateParser(sql);
         try {
             ConnectSqlParser.connectSql(result);
+            RecordOperationLog.recordLog(sql);
         } catch (IOException | DocumentException e) {
             JOptionPane.showMessageDialog(null,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
+        }catch (Exception e){
+            RecordOperationLog.recordLog(sql + " WRONG");
         }
     }
 
