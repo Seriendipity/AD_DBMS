@@ -37,7 +37,7 @@ public class RecordOperationLog {
     }
 
     public static void printLogFile() {
-        String filePath = "./MyDatabase/LogFile.txt";
+        String filePath = "./"+UseUser.userName+"/MyDatabase/LogFile.txt";
         File file = new File(filePath);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {

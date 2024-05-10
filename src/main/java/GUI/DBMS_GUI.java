@@ -61,7 +61,7 @@ public class DBMS_GUI extends JFrame {
         //菜单内元素
         JMenuItem exitMenuItem = new JMenuItem("退出AD_DBMS");
         JMenuItem open = new JMenuItem("连接数据库");
-        JMenuItem save = new JMenuItem("保存");
+        JMenuItem logfile = new JMenuItem("查看日志");
         JMenuItem newDataBaseMenu = new JMenuItem("新建数据库");
 
         JMenuItem cut = new JMenuItem("剪切");
@@ -69,24 +69,35 @@ public class DBMS_GUI extends JFrame {
         JMenuItem paste = new JMenuItem("粘贴");
         JCheckBox find = new JCheckBox("查找");
 
-        JMenuItem soft= new JMenuItem("使用指南");
+        JMenuItem help= new JMenuItem("使用指南");
 
         JMenuItem login = new JMenuItem("登录");
         JMenuItem register= new JMenuItem("注册");
+        JMenuItem exitLogin= new JMenuItem("退出登录");
         //菜单功能实现
         cut.addActionListener(e -> sqlTextArea.cut());
         copy.addActionListener(e -> sqlTextArea.copy());
         paste.addActionListener(e -> sqlTextArea.paste());
+        //查看日志
+        logfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(UseUser.userName != ""){
+                    new Logfile_GUI();
+                }else{
+                    JOptionPane.showMessageDialog(null, "请先登录！\n 菜单->用户->登录");
+                }
+            }
+        });
 
+        //连接数据库
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 connectDatabase();
             }
         });
-
-
-
+        //新建数据库
         newDataBaseMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,7 +118,16 @@ public class DBMS_GUI extends JFrame {
                 new Register_GUI();
             }
         });
-
+        //退出登录
+        exitLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UseUser.userName = "";
+                setDBLabel("数据库资源管理器");
+                System.out.println("成功退出登录");
+            }
+        });
+        //退出程序
         exitMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,8 +135,8 @@ public class DBMS_GUI extends JFrame {
             }
         });
 
-
-        soft.addActionListener(e -> new Help_GUI());
+        //帮助
+        help.addActionListener(e -> new Help_GUI());
 
         //添加到各自板块
         menuBar.add(fileMenu);
@@ -124,9 +144,9 @@ public class DBMS_GUI extends JFrame {
         menuBar.add(helpMenu);
         menuBar.add(userMenu);
 
-        fileMenu.add(open);
-        fileMenu.add(save);
         fileMenu.add(newDataBaseMenu);
+        fileMenu.add(open);
+        fileMenu.add(logfile);
         fileMenu.add(exitMenuItem);
 
         editMenu.add(cut);
@@ -134,10 +154,11 @@ public class DBMS_GUI extends JFrame {
         editMenu.add(paste);
         editMenu.add(find);
 
-        helpMenu.add(soft);
+        helpMenu.add(help);
 
         userMenu.add(login);
         userMenu.add(register);
+        userMenu.add(exitLogin);
 
         setJMenuBar(menuBar);
         /*----------------------------------菜单栏样式设置--------------------------*/
@@ -374,7 +395,6 @@ public class DBMS_GUI extends JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "请先登录！\n 菜单->用户->登录");
         }
-
     }
 
     /*--------------------显示树结构方法-------------------*/
@@ -547,59 +567,11 @@ public class DBMS_GUI extends JFrame {
 
     //新建数据库的界面
     private void openNewDatabaseWindow() {
-        // 创建子窗口
-        JFrame newDatabase = new JFrame("新建数据库");
-        // 设置子窗口关闭时不退出程序，而是只关闭子窗口
-        newDatabase.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // 设置子窗口居中显示
-//        newDatabase.setLocationRelativeTo(null);
-        newDatabase.setLocation(this.getX() + (this.getWidth()- 550) / 2, this.getY()+ (this.getHeight()- 350) / 2);
-        // 创建一个面板，使用网格布局管理器，包含一个标签和一个文本框
-        JPanel subPanel = new JPanel(new GridLayout(2, 1));
-
-        JLabel label = new JLabel("名称");
-        JTextField textField = new JTextField(20);
-
-        subPanel.add(label);
-        subPanel.add(textField);
-
-        // 创建确定和取消按钮
-        JButton okButton = new JButton("确定");
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 在确定按钮的点击事件中处理逻辑，例如获取文本框中的内容并进行处理
-                String name = textField.getText();
-                // 这部分调用创建数据的函数
-
-
-                // 关闭子窗口
-                newDatabase.dispose();
-            }
-        });
-
-        JButton cancelButton = new JButton("取消");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 取消按钮直接关闭子窗口
-                newDatabase.dispose();
-            }
-        });
-
-        // 创建一个面板，包含确定和取消按钮
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(okButton);
-        buttonPanel.add(cancelButton);
-
-        // 将文本框面板和按钮面板添加到子窗口中
-        newDatabase.getContentPane().add(subPanel, BorderLayout.CENTER);
-        newDatabase.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
-        // 调整子窗口大小以适应组件的首选大小
-        newDatabase.pack();
-        // 设置子窗口可见
-        newDatabase.setVisible(true);
+        if(UseUser.userName != ""){
+            new NewDatabase_GUI();
+        }else{
+            JOptionPane.showMessageDialog(null, "请先登录！\n 菜单->用户->登录");
+        }
     }
 
     // 公共方法用于设置 dbLabel 的文字

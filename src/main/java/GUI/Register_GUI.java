@@ -1,6 +1,8 @@
 package GUI;
 import SqlFunction.CreateTable;
 import SqlFunction.Judge;
+import SqlFunction.RecordOperationLog;
+import SqlFunction.UseUser;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -53,6 +55,7 @@ public class Register_GUI extends JFrame {
                 //这里调用创建用户的方法
                 try {
                     createUser(name, password);
+
                     dispose();
                 } catch (DocumentException | IOException ex) {
                     JOptionPane.showMessageDialog(Register_GUI.this, "创建用户失败: " + ex.getMessage());
