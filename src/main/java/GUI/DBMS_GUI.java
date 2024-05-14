@@ -1,29 +1,35 @@
 package GUI;
 
-import SqlFunction.RecordOperationLog;
-import SqlFunction.UseDatabase;
-import SqlFunction.UseUser;
+import SqlFunction.*;
 import Utils.SqlAnalysis;
 import Utils.ConnectSqlParser;
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
+import org.dom4j.*;
 import org.dom4j.io.SAXReader;
+import org.w3c.dom.NodeList;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.List;
 
 
@@ -34,7 +40,6 @@ public class DBMS_GUI extends JFrame {
     private JScrollPane consoleScrollPane;
 
     private static JPanel managePanel = new JPanel();
-    private static int searchIndex = -1;
 
     private static final JScrollPane dbExplorerScrollPane= new JScrollPane();
 
@@ -466,8 +471,10 @@ public class DBMS_GUI extends JFrame {
 
     }
     /*--------------------点击后显示表结构方法-------------------*/
+
+    //显示表结构方法
     private static void loadTable(String dbName,String tableName) {
-        // 加载配置文件
+// 加载配置文件
         File configFile = new File("./"+UseUser.userName+"./MyDatabase/" + dbName + "/" + tableName + "/" + tableName+"-config.xml");
         // 加载数据文件
         File dataFile = new File("./"+UseUser.userName+"./MyDatabase/" + dbName + "/" + tableName + "/" + tableName+"0.xml");
@@ -501,30 +508,41 @@ public class DBMS_GUI extends JFrame {
                     // 获取数据行的子元素
                     List<Attribute> dataAttributes = row.attributes();
                     // 创建一个存储属性值的数组
-                    Object[] rowData = new Object[dataAttributes.size()];
+                    Object[] rowData = new Object[rootAttributes.size()];
 
                     // 将每个属性的值添加到数组中
-                    for (int i = 0; i < dataAttributes.size(); i++) {
-                        Attribute attribute = dataAttributes.get(i);
-                        rowData[i] = attribute.getValue();
+                    for (int i = 0; i < rootAttributes.size(); i++) {
+                        Attribute attribute = rootAttributes.get(i);
+                        // 检查当前属性是否存在于数据行中
+                        boolean attributeExists = false;
+                        for (Attribute dataAttribute : dataAttributes) {
+                            if (dataAttribute.getName().equals(attribute.getName())) {
+                                attributeExists = true;
+                                rowData[i] = row.attributeValue(attribute.getName());
+                                break;
+                            }
+                        }
+                        // 如果当前属性不存在于数据行中，则设置为null
+                        if (!attributeExists) {
+                            rowData[i] = "null";
+                        }
                     }
-
                     // 将数据行添加到表格模型中
                     model.addRow(rowData);
                 }
+
 
                 // 创建表格并设置模型
                 JTable table = new JTable(model);
                 // 创建滚动面板，将表格放入其中
                 JScrollPane tableScrollPane = new JScrollPane(table);
 
-
                 //新建一个对话框存放该表格
                 JDialog tableDialog = new JDialog();
                 tableDialog.setTitle(tableName);
                 tableDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 tableDialog.setLayout(new BorderLayout());
-                tableDialog.add(tableScrollPane,BorderLayout.CENTER);
+                tableDialog.add(tableScrollPane,BorderLayout.NORTH);
                 //关闭按钮
                 JButton closeButton = new JButton("关闭");
                 closeButton.addActionListener(new ActionListener() {
@@ -533,7 +551,93 @@ public class DBMS_GUI extends JFrame {
                         tableDialog.dispose();
                     }
                 });
-                tableDialog.setSize(600,400);
+                // 提交修改按钮
+                JButton submitButton = new JButton("提交修改");
+                submitButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        // 存储所有要更新的值
+                        List<List<String>> allUpdateValues = new ArrayList<>();
+                        for (int row = 0; row < table.getRowCount(); row++) {
+                            List<String> updateValues = new ArrayList<>(); // 存储当前行要更新的值
+                            for (int column = 0; column < table.getColumnCount(); column++) {
+                                Object cellValue = table.getValueAt(row, column);
+                                String columnName = table.getColumnName(column);
+                                if(cellValue!=null){
+                                    updateValues.add(columnName + " = " + cellValue.toString());
+//                                    System.out.println("第"+row+"行"+"第"+column+"列"+"属性名是"+columnName+"::"+cellValue);
+                                }else{
+                                    String s = "null";
+                                    updateValues.add(columnName + " = " + s);
+                                }
+                            }
+                            allUpdateValues.add(updateValues);
+                        }
+
+                        // 更新 XML 文件
+                        try {
+                            // 遍历表格中的更新值，并将其应用到 XML 文件中
+                            for (int i = 0; i < allUpdateValues.size(); i++) {
+                                List<String> updateValues = allUpdateValues.get(i);
+                                List<Element> everyrows = dataRootElement.elements();
+                                Element xmlRow = everyrows.get(i);
+                                // 创建一个 HashMap 用于存储属性名与更新值的对应关系
+                                LinkedHashMap<String, String> updateMap = new LinkedHashMap<>();
+                                // 将更新值按照属性名与属性值的形式存储到 HashMap 中
+                                for (String update : updateValues) {
+                                    String[] parts = update.split(" = ");
+                                    if (parts.length == 2) {
+                                        updateMap.put(parts[0], parts[1]);
+                                    } else {
+//                                        System.out.println("更新字符串格式错误: " + parts[0]);
+                                        updateMap.put(parts[0], "null");
+                                    }
+                                }
+//                                // 遍历 HashMap 中的键值对并输出
+//                                for (Map.Entry<String, String> entry : updateMap.entrySet()) {
+//                                    String key = entry.getKey();       // 获取键
+//                                    String value = entry.getValue();   // 获取值
+//                                    System.out.println("第"+i+"行："+"属性名：" + key + ", 更新值：" + value);
+//                                }
+                                // 更新 XML 节点的属性对应的值
+                                for (Map.Entry<String, String> entry : updateMap.entrySet()) {
+                                    String attributeName = entry.getKey();
+                                    String attributeValue = entry.getValue();
+
+                                    if (attributeName != null && attributeValue != null) {
+                                        Attribute attribute = xmlRow.attribute(attributeName);
+                                        if (attribute != null) {
+                                            attribute.setValue(attributeValue);
+                                        } else {
+                                            // 找不到指定名称的属性则直接新加入这个属性
+                                            xmlRow.addAttribute(attributeName,attributeValue);
+                                        }
+                                    } else {
+                                        System.out.println("属性名称或值为空");
+                                    }
+                                }
+                            }
+
+                            // 保存更新后的 XML 文件
+                            CreateTable.writeIO(dataFile,dataDoc);
+
+                            // 提示用户更新成功
+                            JOptionPane.showMessageDialog(null, "更新成功！");
+                            tableDialog.repaint();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            // 提示用户更新失败
+                            JOptionPane.showMessageDialog(null, "更新失败：" + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
+
+                JPanel buttonPanel = new JPanel();
+                buttonPanel.add(closeButton);
+                buttonPanel.add(submitButton);
+                tableDialog.add(buttonPanel,BorderLayout.SOUTH);
+                tableDialog.setSize(600,500);
                 tableDialog.setLocationRelativeTo(null);
                 tableDialog.setVisible(true);
 
@@ -544,6 +648,8 @@ public class DBMS_GUI extends JFrame {
             JOptionPane.showMessageDialog(null, "未找到数据文件", "错误", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
     //点击运行后的解析
     private void executeSQL() {
@@ -559,6 +665,7 @@ public class DBMS_GUI extends JFrame {
             ConnectSqlParser.connectSql(result);
             RecordOperationLog.recordLog(sql);
         } catch (IOException | DocumentException e) {
+            System.out.println("sssssssssssssssssssssssssssssss");
             JOptionPane.showMessageDialog(null,"解析出现错误" + e.getMessage(),"错误",JOptionPane.ERROR_MESSAGE);
         }catch (Exception e){
             RecordOperationLog.recordLog(sql + " WRONG");
