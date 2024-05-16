@@ -68,7 +68,6 @@ public class ConnectSqlParser {
             UseUser.userName = userName;
             System.out.println("切换到user " + UseUser.userName);
 
-
         } else if(operation.equals("insert into")){
             System.out.println("调用insert方法");
             String insertTableName = list.get(1);
@@ -149,7 +148,17 @@ public class ConnectSqlParser {
             }else if(parameterList.get(1).get(0).equals("drop column")){
                 DropColumnInformation.add(parameterList.get(1).get(1));
                 DropColumn.dropColumn(UseDatabase.databaseName,tableName,DropColumnInformation);
+            } else if (parameterList.get(1).get(0).equals("modify")) {
+                DropColumnInformation.add(parameterList.get(1).get(1));
+                DropColumn.dropColumn(UseDatabase.databaseName,tableName,DropColumnInformation);
+                AddColumnInformation.add(parameterList.get(1).get(1) + " " + parameterList.get(1).get(2));
+                AddColumn.addColumn(UseDatabase.databaseName,tableName,AddColumnInformation);
             }
+        } else if (operation.equals("delete from")) {
+            String tableName = list.get(1);
+            List<String> deleteCondition = new ArrayList<String>();
+            deleteCondition = parameterList.get(1).subList(1,parameterList.get(1).size());
+            DropDataFromTable.dropFromTable(UseDatabase.databaseName,tableName,deleteCondition);
         } else{
             System.out.println("有待开发");
         }

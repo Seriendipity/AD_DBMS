@@ -77,7 +77,13 @@ public class SqlAnalysis {
         } else if(contains(sql,"(alter table)(.+)(drop column)(.+)")){
             System.out.println("匹配正则表达式:alter table XX drop column XX");
             bp = new AlterTableDropColumnSqlParser(sql);
-        }else{
+        } else if (contains(sql,"(delete from)(.+)")) {
+            System.out.println("匹配正则表达式：delete from XX where ");
+            bp = new deleteDataFromTable(sql);
+        } else if (contains(sql,"(alter table)(.+)(modify)(.+)")) {
+            System.out.println("匹配正则表达式 ： alter table XX modify column newType");
+            bp = new AlterTableModifyColumnType(sql);
+        } else{
             System.out.println("Sql语句错误。请重新输入");
             return null;
         }

@@ -8,3 +8,49 @@
 2024-05-09 19:09:35select * from test;
 2024-05-09 19:11:05select * form table1; WRONG
 2024-05-09 19:11:23select * from table1;
+2024-05-09 19:31:41select * form table1; WRONG
+2024-05-09 19:31:50select * from table1;
+2024-05-09 22:53:06select * from table1;
+2024-05-09 22:53:06select * from table1;
+2024-05-09 22:55:49show tables table1;
+2024-05-09 22:56:44describe table1;
+2024-05-10 11:30:56select * from table1;
+2024-05-10 11:30:56update table table1 set sno=2222 where sname=16;
+2024-05-10 11:31:08select * from table1;
+2024-05-13 15:51:08 use user mhb;
+2024-05-13 15:51:16 use test;
+2024-05-13 15:52:04 insert into table1(sno,sname) values(123124,23314),(135123,3746);
+2024-05-13 15:53:00insert into table1(sno,sname) values(34621,1234),(15622,6232);
+2024-05-14 12:05:09select * from table1;
+2024-05-14 12:05:54select * from table1;
+2024-05-16 19:59:21 use user mhb;
+2024-05-16 19:59:24 use test;
+2024-05-16 19:59:46 delete from sc where sno=2; WRONG HAPPEN
+2024-05-16 20:00:12 delete from table1 where sno=1111;
+2024-05-16 20:01:12 update table table1 set sno=2222 where sname=124;
+2024-05-16 20:01:41 update table table1 set sno=2222 where sname=634;
+2024-05-16 20:01:55 delete from table1 where sno=2222;
+2024-05-16 20:05:41delete from table1 where sno=12314;
+2024-05-16 20:09:25 use user mhb;
+2024-05-16 20:09:31 use test;
+2024-05-16 20:10:03 alter table sc add column age int; WRONG HAPPEN
+2024-05-16 20:11:26 alter table table1 add column age int;
+2024-05-16 20:12:06 update table table1 set age=18 where sno=2222;
+2024-05-16 20:12:40 update table table1 set age=18 where sno=2222;
+2024-05-16 20:12:58 update table table1 set age=18 where sno=15622;
+2024-05-16 20:13:50update table table1 set age=18 where sno=2222;
+2024-05-16 20:14:18update table table1 set age=11 where sno=2222;
+2024-05-16 20:14:41update table table1 set age=18 where sno=123124;
+2024-05-16 20:15:04alter table table1 drop column age;
+2024-05-16 20:15:16select * from table1;
+2024-05-16 20:16:12alter table table1 add column age int;
+2024-05-16 20:16:33alter table table1 drop column age;
+2024-05-16 20:40:36  use user mhb;
+2024-05-16 20:40:39  use test;
+2024-05-16 20:40:50  alter table table1 add column age int;
+2024-05-16 20:41:14  update table table1 set age=99 where sno=15622;
+2024-05-16 20:41:30  alter table table1 modify age smallint;
+2024-05-16 20:42:47  use user mhb;
+2024-05-16 20:42:50  use test;
+2024-05-16 20:42:59  alter table table1 add column age int;
+2024-05-16 20:43:18  alter table table1 modify age smallint;

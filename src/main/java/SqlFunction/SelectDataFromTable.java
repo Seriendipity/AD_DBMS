@@ -109,7 +109,7 @@ public class SelectDataFromTable {
 
         for (int j = Integer.parseInt(lastFileNum); j >= 0; j--) {
             String num = "" + j;
-            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/MyDatabase/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(file);
             Element rootElement = document.getRootElement();
@@ -151,7 +151,7 @@ public class SelectDataFromTable {
 
         for (int j = Integer.parseInt(lastFileNum); j >= 0; j--) {
             String num = "" + j;
-            File file = new File("./"+UseUser.userName+"/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
+            File file = new File("./"+UseUser.userName+"/MyDataBase/"+DatabaseName + "/" + TableName + "/" + TableName + num + ".xml");
 
             //解析XML文件
             SAXReader saxReader = new SAXReader();

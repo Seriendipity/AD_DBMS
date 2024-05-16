@@ -19,6 +19,6 @@ public class DropColumn {
             attr.detach();
         }
         CreateTable.writeIO(file,document);
-        System.out.println("成功删除列");
+        //System.out.println("成功删除列");
     }
 }

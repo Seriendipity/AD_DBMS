@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <table1s> 
-  <table1 sno="1111" sname="16"/>  
-  <table1 sno="5322" sname="123"/>  
-  <table1 sno="2222" sname="124"/>  
-  <table1 sno="3423" sname="634"/>
+  <table1 sno="2222" sname="634" age="11"/>  
+  <table1 sno="123124" sname="23314" age="18"/>  
+  <table1 sno="135123" sname="3746" age="null"/>  
+  <table1 sno="34621" sname="1234" age="null"/>  
+  <table1 sno="15622" sname="6232" age="99"/> 
 </table1s>

@@ -20,6 +20,6 @@ public class AddColumn {
             rootElement.addAttribute(list[0],list[1]);
         }
         CreateTable.writeIO(file,document);
-        System.out.println("成功增加新的列");
+      //  System.out.println("成功增加新的列");
     }
 }

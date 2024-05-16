@@ -23,7 +23,7 @@ public class RecordOperationLog {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile(),true))){
            //获取当前时间
             LocalDateTime currentTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ");
             String formattedTime = currentTime.format(formatter);
             writer.append(formattedTime);
 
