@@ -8,6 +8,7 @@ import java.util.*;
 
 import static SqlFunction.CreateDatabase.createDatabase;
 import static SqlFunction.CreateIndex.createIndex;
+import static SqlFunction.CreateIndex.indexFileName;
 import static SqlFunction.CreateTable.createTable;
 import static SqlFunction.DropDatabase.dropDatabase;
 import static SqlFunction.DropTable.dropTable;
@@ -53,7 +54,12 @@ public class ConnectSqlParser {
             System.out.println("调用删除表的方法");
             String tableName = list.get(1);
             dropTable(UseDatabase.databaseName,tableName);
-        }else if(operation.equals("use")){
+        } else if (operation.equals("drop index on")) {
+            System.out.println("调用删除索引的方法");
+            String tableName = list.get(1);
+            String IndexName = list.get(2);
+            DropIndex.dropIndex(UseDatabase.databaseName,tableName,indexFileName);
+        } else if(operation.equals("use")){
             String databaseName = list.get(1);
             boolean isLegal = CheckDatabaseLegal.checkDBisLegal(databaseName);
             if(isLegal){

@@ -3,3 +3,5 @@
 2024-05-16 19:55:47 delete from table1 where sno=11,sname=222;
 2024-05-16 20:36:38  alter table table1 modify age smallint;
 2024-05-16 20:37:45  alter table table1 modify age smallint;
+2024-05-17 10:23:24  drop index on sc sc_index;
+2024-05-17 10:23:51  drop index on sc sc_index;

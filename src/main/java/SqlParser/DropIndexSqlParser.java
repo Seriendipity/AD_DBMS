@@ -7,7 +7,7 @@ public class DropIndexSqlParser extends BaseParser{
 
     @Override
     protected void initializeSegments() {
-        segments.add(new SqlSegment("(drop index)(.+)(;)","[,]"));
+        segments.add(new SqlSegment("(drop index on)(.+)(;)","[\\s]"));
     }
 
 }

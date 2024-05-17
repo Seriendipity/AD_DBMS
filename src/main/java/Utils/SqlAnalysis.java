@@ -27,7 +27,7 @@ public class SqlAnalysis {
         } else if(contains(sql,"(drop database)(.+)")){
             System.out.println("匹配正则表达式：drop database");
             bp = new DropDatabaseSqlParser(sql);
-        }else if(contains(sql,"(drop index)(.+)")){
+        }else if(contains(sql,"(drop index on)(.+)")){
             System.out.println("匹配正则表达式：drop index");
             bp = new DropIndexSqlParser(sql);
         }else if(contains(sql,"(drop table)(.+)")){
